@@ -1,0 +1,35 @@
+.popular-activities-sec{
+    background-image: url(https://gaviaspreview.com/wp/gowilds/wp-content/uploads/2022/12/bg-shape-01.png);
+    background-position: top center;
+    background-repeat: no-repeat;
+    padding: 0px 20px 90px 20px;
+  }
+  .popular-activites-top-inner{
+    font-weight: 700;
+    font-size: 16px;
+    color: #63AB45;
+    background-color: #64ab4530;
+    border-radius: 6px;
+    padding: 10px 20px;
+    margin: 150px 0px 0px 0px;
+  }
+  .popular-activites-top-sec{
+    display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+  
+  .popular-activites-desc-sec{
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.22;
+    letter-spacing: -0.6px;
+  
+    display: flex;
+    justify-content: center;
+
+    margin: 40px 0px;
+  }
+  .mySwiper{
+    margin: 0px !important;
+  }

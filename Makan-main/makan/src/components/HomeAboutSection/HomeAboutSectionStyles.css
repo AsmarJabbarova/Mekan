@@ -1,0 +1,128 @@
+.about-sec-inner-div{
+    background-image: url(https://gaviaspreview.com/wp/gowilds/wp-content/uploads/2022/12/bg-shape-02.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 40%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.about-inner-left-sec{
+    width: 40%;
+}
+.about-inner-left-lg-img{
+    border-radius: 50px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 15s ease;
+}
+.about-inner-left-lg-img:hover{
+    transform: scale(1.2);
+}
+.about-inner-left-sm-img{
+    border: 8px solid #fff;
+    border-radius: 30px;
+    box-shadow: 10px 0 30px 0px rgba(0, 0, 0, 0.18);
+    object-fit: cover;
+    transition: all 10s ease;
+}
+.about-inner-left-sm-img:hover{
+    border-radius: 37px;
+    transform: scale(1.03);
+}
+.about-inner-left-lg-img-sec{
+    border-radius: 50px;
+    overflow: hidden;
+    position:relative;
+    top: 50px;
+    right: -100px;
+    width: 80%;
+}
+.about-inner-left-sm-img-sec{
+    box-sizing: border-box;
+    display: inline-block;
+    border-radius: 30px;
+    overflow: hidden;
+    position:relative;
+    bottom: 150px;
+    left: 0px;
+}
+.about-top-inner{
+  font-weight: 700;
+  font-size: 16px;
+  color: #63AB45;
+  background-color: #64ab4530;
+  border-radius: 6px;
+  padding: 10px 20px;
+  margin: 50px 0px 0px 0px;
+}
+.about-top-sec{
+  display: flex;
+}
+.about-inner-right-sec{
+    width: 40%;
+    padding-left: 100px;
+}
+.about-desc-sec{
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.22;
+  letter-spacing: -0.6px;
+
+  display: flex;
+  justify-content: center;
+  margin: 40px 0px;
+}
+.check-icon{
+    width: 24px;
+    height: 24px;
+    background: url(https://gaviaspreview.com/wp/gowilds/wp-content/themes/gowilds/assets/images/badge-check.png) no-repeat center center transparent;
+}
+.features-list{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
+}
+.feature-list-item{
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+.feature-list-content{
+    display: flex;
+    flex-direction: column;
+}
+.feature-list-content-title{
+    font-size: 22px;
+    letter-spacing: -0.4px;
+    font-weight: 700;
+    line-height: 1.22;
+    color: #1c231f;
+}
+.feature-list-content-desc{
+    line-height: 1.8em;
+    font-weight: 400;
+    color: #82828a;
+    font-size: 16px;
+}
+
+@media screen and (max-width: 1100px){
+    .about-sec-inner-div{
+        padding-bottom: 150px;
+    }
+    .about-sec-inner-div{
+        flex-direction: column;
+    }
+    .about-inner-left-sec{
+        width: 100%;
+    }
+    .about-inner-right-sec{
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 770px){
+
+}

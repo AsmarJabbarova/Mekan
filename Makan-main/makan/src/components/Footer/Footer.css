@@ -1,0 +1,145 @@
+footer{
+    background-color: #1D231F;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+footer p,h1{
+    color: aliceblue;
+    margin: 0px;
+    padding: 0px;
+}
+.footer-top-sec{
+    display: flex;
+    justify-content: space-around;
+    padding-top: 80px;
+    padding-bottom: 80px;
+    width: 100%;
+}
+.footer-top-sec img{
+    max-width: 80px;
+}
+.footer-top-inner{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.footer-p{
+    color: aliceblue;
+    text-align: start;
+}
+.footer-p-lg{
+    font-size: 26px;
+}
+.arrow-icon{
+    transform: rotate(-45deg);
+    width: 30px;
+    height: 30px;
+    margin: 15px;
+}
+.arrow-sec{
+    border-radius: 50%;
+
+}
+.green{
+    background-color: #63AB45;
+    box-shadow: 0px 10px 60px 0px rgba(99.00000000000004, 171.00000000000003, 68.99999999999997, 0.61);
+}
+.orange{
+    background-color: #F7921E;
+    box-shadow: 0px 10px 60px 0px rgba(246.99999999999994, 145.99999999999997, 30.00000000000003, 0.54);
+}
+.footer-p-sec{
+    width: 300px;
+}
+.line{
+    height: 0.5px;
+    width: 80%;
+    background-color: rgba(240, 248, 255, 0.287);
+}
+
+
+
+.footer-bottom-sec{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 80%;
+    gap: 50px;
+}
+.footer-bottom-inner{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
+    width: 20%;
+}
+.footer-bottom-pages-inner{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.bottom-socials{
+    display: flex;
+}
+.social-btn{
+    background-color: #262D28;
+    border-radius: 50%;
+    padding: 10px 15px;
+    border-style: none;
+}
+.social-btn:hover{
+    background-color: whitesmoke;
+}
+.send-btn{
+    background-color: #63AB45;
+}
+
+.footer-contact-sec{
+    display: flex;
+}
+
+
+
+
+.copyright-sec{
+    width: 100%;
+    padding: 20px 0px;
+    background-color: #1013117b;
+    display: flex;
+    justify-content: center;
+}
+
+@media screen and (max-width: 900px){
+    .footer-bottom-sec{
+        flex-direction: column;
+        align-items: center;
+    }
+    .footer-p-lg{
+        font-size: 20px;
+    }
+    .footer-top-sec img{
+        max-width: 60px;
+    }
+    .arrow-icon{
+        width: 20px;
+        height: 20px;
+        margin: 10px;
+    }
+}
+
+@media screen and (max-width: 770px){
+    .footer-top-sec{
+        flex-direction: column;
+        align-items: center;
+        /* flex-wrap: wrap; */
+    }
+    .footer-p-lg{
+        font-size: 16px;
+    }
+
+    .footer-bottom-sec{
+        flex-direction: column;
+        align-items: center;
+    }
+}
