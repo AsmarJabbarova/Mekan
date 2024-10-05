@@ -1,4 +1,7 @@
+
 # Mekan
+
+![Alt text](https://github.com/AsmarJabbarova/Mekan/blob/main/Mekan%20logo.webp)
 
 <details>
 <summary>Table of Contents</summary>
@@ -33,13 +36,14 @@ This project is ideal for:
 
 <h3>Technologies Used</h3>
 
-- <img src="https://www.python.org/community/logos/python-logo.png" alt="Python" width="50" />
-- <img src="https://flask.palletsprojects.com/en/2.0.x/_static/flask-logo.png" alt="Flask" width="50" />
-- <img src="https://www.w3.org/html/logo/w3c_html5_logo_512.png" alt="HTML" width="50" />
-- <img src="https://upload.wikimedia.org/wikipedia/commons/6/62/CSS3_logo_and_wordmark.svg" alt="CSS" width="50" />
-- <img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/JavaScript-logo.png" alt="JavaScript" width="50" />
-- <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="React" width="50" />
-- <img src="https://www.mysql.com/common/logos/logo-mysql-170x115.png" alt="MySQL" width="50" />
+<img src="https://www.python.org/community/logos/python-logo.png" alt="Python" width="50" />
+<img src="https://flask.palletsprojects.com/en/2.0.x/_static/flask-logo.png" alt="Flask" width="50" />
+<img src="https://upload.wikimedia.org/wikipedia/commons/6/6f/HTML5_logo_and_wordmark.svg" alt="HTML" width="50" />
+<img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg" alt="CSS" width="50" />
+<img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/JavaScript-logo.png" alt="JavaScript" width="50" />
+<img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="React" width="50" />
+<img src="https://upload.wikimedia.org/wikipedia/commons/0/0c/MySQL_logo_1.png" alt="MySQL" width="50" />
+
 
 ## Features
 
@@ -120,8 +124,9 @@ This project is licensed under the MIT License - see the LICENSE.txt file for de
 
 ## Authors
 
-| ![Albina](https://github.com/Albinnich.png?size=100) | ![Rauf](https://github.com/Raid-dev.png?size=100) | ![Asmar](https://github.com/AsmarJabbarova.png?size=100) | ![Fidan](https://github.com/fidanhuseynova04.png?size=100) |
-|:--:|:--:|:--:|:--:|
-| [**Albina**](https://github.com/Albinnich) | [**Rauf**](https://github.com/Raid-dev) | [**Asmar**](https://github.com/AsmarJabbarova) | [**Fidan**](https://github.com/fidanhuseynova04) |
+[![Albina](https://img.shields.io/badge/-Albinnich-blue?style=for-the-badge&logo=github)](https://github.com/Albinnich)
+[![Rauf](https://img.shields.io/badge/-Rauf-blue?style=for-the-badge&logo=github)](https://github.com/Raid-dev)
+[![Asmar](https://img.shields.io/badge/-Asmar-blue?style=for-the-badge&logo=github)](https://github.com/AsmarJabbarova)
+[![Fidan](https://img.shields.io/badge/-Fidan-blue?style=for-the-badge&logo=github)](https://github.com/fidanhuseynova04)
 
 
