@@ -1,7 +1,9 @@
 
-# Mekan
-
-<img src="https://github.com/AsmarJabbarova/Mekan/blob/main/Mekan%20logo.webp?raw=true" alt="Mekan Logo" width="300" />
+<div style="text-align: center;">
+    <h1>Mekan</h1>
+    <h2>*"Explore Every Entertainment Spot in Azerbaijan."*</h2>
+    <img src="https://github.com/AsmarJabbarova/Mekan/blob/main/Mekan%20logo.webp?raw=true" alt="Mekan Logo" width="300" />
+</div>
 
 <details>
 <summary>Table of Contents</summary>
@@ -34,13 +36,10 @@ This project is ideal for:
 
 ## Technologies Used
 
-<img src="https://www.python.org/community/logos/python-logo.png" alt="Python" width="50" />
-<img src="https://flask.palletsprojects.com/en/2.0.x/_static/flask-logo.png" alt="Flask" width="50" />
-<img src="https://upload.wikimedia.org/wikipedia/commons/6/6f/HTML5_logo_and_wordmark.svg" alt="HTML" width="50" />
-<img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg" alt="CSS" width="50" />
-<img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/JavaScript-logo.png" alt="JavaScript" width="50" />
-<img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="React" width="50" />
-<img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/MySQL.png" alt="MySQL" width="50" />
+<img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" alt="Python" width="50" />        <img src="https://flask.palletsprojects.com/en/2.0.x/_static/flask-logo.png" alt="Flask" width="50" />
+<img src="https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg" alt="HTML" width="50" />       <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg" alt="CSS" width="50" />
+<img src="https://upload.wikimedia.org/wikipedia/commons/2/27/JavaScript_logo_2.svg" alt="JavaScript" width="50" />       <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="React" width="50" />
+<img src="https://www.mysql.com/common/logos/logo-mysql-170x115.png" alt="MySQL" width="50" />      <img src="https://upload.wikimedia.org/wikipedia/commons/4/4c/TypeScript_logo_2020.svg" alt="TypeScript" width="50" />
 
 
 ## Features
@@ -122,9 +121,9 @@ This project is licensed under the MIT License - see the LICENSE.txt file for de
 
 ## Authors
 
-[![Albina](https://img.shields.io/badge/-Albina-green?style=for-the-badge&logo=github)](https://github.com/Albinnich)
-[![Rauf](https://img.shields.io/badge/-Rauf-green?style=for-the-badge&logo=github)](https://github.com/Raid-dev)
-[![Asmar](https://img.shields.io/badge/-Asmar-green?style=for-the-badge&logo=github)](https://github.com/AsmarJabbarova)
-[![Fidan](https://img.shields.io/badge/-Fidan-green?style=for-the-badge&logo=github)](https://github.com/fidanhuseynova04)
+[![Albina](https://img.shields.io/badge/-Albina-darkgreen?style=for-the-badge&logo=github)](https://github.com/Albinnich)
+[![Rauf](https://img.shields.io/badge/-Rauf-darkgreen?style=for-the-badge&logo=github)](https://github.com/Raid-dev)
+[![Asmar](https://img.shields.io/badge/-Asmar-darkgreen?style=for-the-badge&logo=github)](https://github.com/AsmarJabbarova)
+[![Fidan](https://img.shields.io/badge/-Fidan-darkgreen?style=for-the-badge&logo=github)](https://github.com/fidanhuseynova04)
 
 
