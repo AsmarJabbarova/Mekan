@@ -15,7 +15,8 @@ const ContactTopSection: React.FC = () => {
             modules={[EffectFade, Autoplay]}
             className="mySwiper"
             >
-            <SwiperSlide>
+            <SwiperSlide 
+              style={{maxHeight: '300px' }}>
               <div className="slide-content">
                 <img className="about-top-img" src="https://gaviaspreview.com/wp/gowilds/wp-content/uploads/2023/01/breadcrumb-01.jpg" />
                 <div className="text-overlay">
@@ -24,7 +25,8 @@ const ContactTopSection: React.FC = () => {
                 </div>
               </div>
             </SwiperSlide>
-            <SwiperSlide>
+            <SwiperSlide 
+              style={{maxHeight: '300px' }}>
             <div className="slide-content">
                 <img className="about-top-img" src="https://gaviaspreview.com/wp/gowilds/wp-content/uploads/2023/01/breadcrumb-02.jpg" />
                 <div className="text-overlay">

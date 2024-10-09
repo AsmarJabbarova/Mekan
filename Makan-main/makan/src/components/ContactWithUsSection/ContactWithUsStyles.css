@@ -1,0 +1,100 @@
+.contact-with-us-sec{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    gap: 100px;
+}
+.contact-with-us-inner-right-sec{
+    width: 100%;
+}
+.contact-with-us-top-inner{
+    font-weight: 700;
+    font-size: 16px;
+    background-color: #64ab4530;
+    padding: 10px 20px;
+    padding: 9px 22px;
+    color: #63ab45;
+    border-radius: 6px;
+    display: inline-block;
+}
+.form-container {
+  max-width: 600px;
+  border-radius: 10px; 
+  width: 100%;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 20px; 
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column; 
+}
+
+
+input, textarea {
+  padding: 12px;
+  border: 0px;
+  border-radius: 5px; 
+  width: 100%;
+  box-sizing: border-box; 
+  transition: border-color 0.3s ease, box-shadow 0.3s ease; 
+  font-size: 16px; 
+  background-color: #f9f9f9; 
+}
+
+textarea {
+    min-height: 40px; /* Minimum height for the textarea */
+    max-height: 180px; /* Maximum height for the textarea */
+    resize: vertical; /* Allow vertical resizing only */
+  }
+
+input::placeholder, textarea::placeholder {
+  color: #aaa; 
+  font-style: italic;
+}
+
+input:focus, textarea:focus {
+  box-shadow: 0 0 5px rgb(72, 106, 78); 
+  outline: none; 
+}
+
+.error {
+  color: #e74c3c;
+  font-size: 0.875em; 
+}
+
+.submit-button {
+  padding: 12px 20px;
+  background-color: #28a745;
+  color: white; 
+  border: none;
+  border-radius: 5px; 
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s; 
+  font-size: 16px; 
+  grid-column: span 2; 
+}
+
+.submit-button:hover {
+  background-color: #218838; 
+}
+
+.full-width {
+  grid-column: span 2; 
+}
+
+
+@media (max-width: 600px) {
+  .form {
+    grid-template-columns: 1fr; 
+  }
+
+  .submit-button {
+    grid-column: span 1; 
+  }
+}
