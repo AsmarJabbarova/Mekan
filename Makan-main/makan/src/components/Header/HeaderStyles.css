@@ -1,0 +1,51 @@
+.header-top{
+    background-color: rgb(108, 179, 101);
+    height: 40px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+    background-image: url(https://gaviaspreview.com/wp/gowilds/wp-content/uploads/2022/12/pattern-topbar.png);
+    background-position: top left;
+    background-repeat: repeat;
+}    
+.header-top-left{
+    display: flex;
+    flex-direction: row;
+}
+.header-top-right{
+    display: flex;
+    flex-direction: row;
+}
+.header-inner{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 20px;
+}
+.header-p{
+    font-size: small;
+    font-weight: 700;
+    margin: 10px;
+    padding: 0px;
+    color: aliceblue;
+}
+
+.header-top-right-socials{
+    display: flex;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.177);
+    padding: 0px 30px;
+}
+
+.header-top-right-socials a{
+    margin: 0px 10px;
+    padding-bottom: 2px;
+}
+
+@media screen and (max-width: 900px) {
+    .header-top-left{
+        display: none;
+    }
+  }

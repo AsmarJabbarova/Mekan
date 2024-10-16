@@ -1,6 +1,8 @@
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import './ContactWithUsStyles.css'
+import { FaFacebook, FaInstagram, FaLinkedin } from 'react-icons/fa';
+import { FaX, FaXTwitter } from 'react-icons/fa6';
 
 interface FormValues {
   name: string;
@@ -56,7 +58,18 @@ const ContactWithUsSection: React.FC = () => {
           Man braid hell of edison bulb four brunch subway tile authentic, chillwave put a bird on church-key ramps heirloom. Set perspiciatis unde omnis estenatus voluptatem aperiae.
           </div>
           <div className="contact-social-icons-sec">
-            
+            <a href='https://www.facebook.com/' target="_blank">
+              <FaFacebook color='black'/>
+            </a>
+            <a href='https://www.x.com/' target="_blank">
+              <FaXTwitter color='black'/>
+            </a>
+            <a href='https://www.instagram.com/' target="_blank">
+              <FaInstagram color='black'/>
+            </a>
+            <a href="https://www.linkedin.com/" target="_blank">
+              <FaLinkedin color='black'/>
+            </a>
           </div>
         </div>
         <div className="form-container">
@@ -64,33 +77,33 @@ const ContactWithUsSection: React.FC = () => {
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={onSubmit}
-        validateOnBlur={false} // Disable validation on blur
-        validateOnChange={false} // Disable validation on change
+        validateOnBlur={false} 
+        validateOnChange={false} 
       >
         {({ isSubmitting }) => (
           <Form className="form">
             <div className="form-field">
-              <Field type="text" id="name" name="name" placeholder="Your Name" />
+              <Field type="text" id="name" name="name" placeholder="Your Name" className="contact-form-input"/>
               <ErrorMessage name="name" component="div" className="error" />
             </div>
 
             <div className="form-field">
-              <Field type="email" id="email" name="email" placeholder="Your Email" />
+              <Field type="email" id="email" name="email" placeholder="Your Email" className="contact-form-input"/>
               <ErrorMessage name="email" component="div" className="error" />
             </div>
 
             <div className="form-field">
-              <Field type="text" id="phone" name="phone" placeholder="Your Phone" />
+              <Field type="text" id="phone" name="phone" placeholder="Your Phone" className="contact-form-input"/>
               <ErrorMessage name="phone" component="div" className="error" />
             </div>
 
             <div className="form-field">
-              <Field type="text" id="subject" name="subject" placeholder="Subject" />
+              <Field type="text" id="subject" name="subject" placeholder="Subject" className="contact-form-input"/>
               <ErrorMessage name="subject" component="div" className="error" />
             </div>
 
             <div className="form-field full-width">
-              <Field as="textarea" id="message" name="message" placeholder="Your Message" />
+              <Field as="textarea" id="message" name="message" placeholder="Your Message" className="contact-form-input"/>
               <ErrorMessage name="message" component="div" className="error" />
             </div>
 

@@ -1,9 +1,9 @@
 .contact-with-us-sec{
     display: flex;
-    align-items: center;
     justify-content: center;
     width: 80%;
     gap: 100px;
+    padding: 150px 0px 150px 0px;
 }
 .contact-with-us-inner-right-sec{
     width: 100%;
@@ -17,6 +17,31 @@
     color: #63ab45;
     border-radius: 6px;
     display: inline-block;
+}
+.contact-top-desc-sec{
+    font-size: 48px;
+    letter-spacing: -0.6px;
+    font-weight: 700;
+    line-height: 1.22;
+    color: #1c231f;
+    padding-top: 20px;
+}
+.contact-desc-sec{
+    font-size: 16px;
+    font-weight: 500;
+    padding: 20px 0px 0px 0px;
+    color: #82828a;
+}
+.contact-social-icons-sec{
+    display: flex;
+    gap: 10px;
+    padding: 30px 0px 0px 0px;
+}
+.contact-social-icons-sec a{
+    background-color: #EDEDED;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 8px 12px;
 }
 .form-container {
   max-width: 600px;
@@ -36,8 +61,8 @@
 }
 
 
-input, textarea {
-  padding: 12px;
+.contact-form-input, #message {
+  padding: 15px;
   border: 0px;
   border-radius: 5px; 
   width: 100%;
@@ -47,18 +72,19 @@ input, textarea {
   background-color: #f9f9f9; 
 }
 
-textarea {
-    min-height: 40px; /* Minimum height for the textarea */
-    max-height: 180px; /* Maximum height for the textarea */
-    resize: vertical; /* Allow vertical resizing only */
+#message {
+    min-height: 40px;
+    height: 120px;
+    max-height: 180px;
+    resize: vertical;
   }
 
-input::placeholder, textarea::placeholder {
+.contact-form-input::placeholder, #message::placeholder {
   color: #aaa; 
   font-style: italic;
 }
 
-input:focus, textarea:focus {
+.contact-form-input:focus, #message:focus {
   box-shadow: 0 0 5px rgb(72, 106, 78); 
   outline: none; 
 }
@@ -88,6 +114,11 @@ input:focus, textarea:focus {
   grid-column: span 2; 
 }
 
+@media screen  and (max-width: 900px){
+    .contact-with-us-sec{
+        flex-direction: column;
+    }
+}
 
 @media (max-width: 600px) {
   .form {

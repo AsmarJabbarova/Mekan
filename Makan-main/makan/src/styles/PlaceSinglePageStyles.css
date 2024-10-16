@@ -1,0 +1,17 @@
+.single-page-body{
+    display: flex;
+    justify-content: center;
+    padding-top: 50px;
+}
+
+.single-page-body-inner{
+    display: flex;
+    justify-content: center;
+    width: 80%;
+}
+
+@media screen and (max-width: 950px){
+    .single-page-body-inner{
+        flex-direction: column;
+    }
+}

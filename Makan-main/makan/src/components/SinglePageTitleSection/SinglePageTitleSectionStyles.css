@@ -1,0 +1,34 @@
+.single-title-sec{
+    background-color: #f3f8f6;
+    padding: 60px 10% 56px 10%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.gray-p{
+    color: #82828A;
+}
+
+.single-title-sec p{
+    margin: 0px;
+    padding: 0px;
+    font-weight: 600;
+}
+.single-title-sec-left h2{
+    font-weight: 500;
+}
+
+.single-title-sec-left-inner{
+    display: flex;
+    align-items: center;
+}
+
+@media screen and (max-width: 900px){
+    .single-title-sec{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 50px;
+    }
+}

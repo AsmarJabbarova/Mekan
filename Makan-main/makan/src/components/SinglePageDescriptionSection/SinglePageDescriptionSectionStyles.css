@@ -1,0 +1,29 @@
+.single-desc-sec{
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+.location-image{
+    background-image: url("https://gaviaspreview.com/wp/gowilds/wp-content/uploads/2023/01/tour-12-500x360.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 500px;
+    border-radius: 10px;
+}
+
+@media screen and (max-width: 950px){
+    .single-desc-sec{
+        width: 100%;
+    }
+
+    .location-image{
+        background-image: url("https://gaviaspreview.com/wp/gowilds/wp-content/uploads/2023/01/tour-12-500x360.jpg");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        height: 300px;
+        border-radius: 10px;
+    }
+}

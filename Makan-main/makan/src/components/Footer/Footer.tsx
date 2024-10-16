@@ -1,9 +1,27 @@
 import { FaEnvelope, FaFacebook, FaInstagram, FaLinkedin, FaPaperPlane, FaPhone } from 'react-icons/fa'
-import './Footer.css'
+import './FooterStyles.css'
 import { FaArrowRight, FaLocationDot, FaXTwitter} from 'react-icons/fa6'
+import { Field, Form, Formik } from 'formik'
+import * as Yup from 'yup';
 
+interface FormValues {
+    email: string;
+  }
+  
+  const initialValues: FormValues = {
+    email: ''
+  };
+  
+  const validationSchema = Yup.object({
+    email: Yup.string()
+      .email('Invalid email format')
+      .required('Email is required'),
+  });
 
 function Footer() {
+    const onSubmit = (values: FormValues) => {
+    console.log('Form data', values);
+  };
     return (
         <>
             <footer>
@@ -43,22 +61,22 @@ function Footer() {
                         ever undertakes laborious physica exercise except obsome.</p>
                         <div className='bottom-socials'>
                             <button className='social-btn'>
-                                <a href="">
+                                <a href='https://www.x.com/' target="_blank">
                                     <FaXTwitter className='social-btn-icon'/>
                                 </a>
                             </button>
                             <button className='social-btn'>
-                                <a href="">
+                                <a href='https://www.facebook.com/' target="_blank">
                                     <FaFacebook className='social-btn-icon'/>
                                 </a>
                             </button>
                             <button className='social-btn'>
-                                <a href="">
+                                <a href='https://www.instagram.com/' target="_blank">
                                     <FaInstagram className='social-btn-icon'/>
                                 </a>
                             </button>
                             <button className='social-btn'>
-                                <a href="">
+                                <a href="https://www.linkedin.com/" target="_blank">
                                     <FaLinkedin className='social-btn-icon'/>
                                 </a>
                             </button>
@@ -79,12 +97,20 @@ function Footer() {
                             <p>Subscribe our newsletter to get our latest update & news.</p>
                         </div>
                         <div>
-                            <form action="">
-                                <input type="mail" placeholder='Email Address'/>
-                                <button className='send-btn' type="submit">
-                                    <FaPaperPlane/>
-                                </button>
-                            </form>
+                            <Formik
+                                initialValues={initialValues}
+                                validationSchema={validationSchema}
+                                onSubmit={onSubmit}
+                                validateOnBlur={false} // Disable validation on blur
+                                validateOnChange={false} // Disable validation on change
+                                >
+                                <Form className='form-footer'>
+                                    <Field type="mail" id="mail" name="mail" className="footer-contact-input" placeholder='Email Address'/>
+                                    <button className='send-btn' type="submit">
+                                        <FaPaperPlane/>
+                                    </button>
+                                </Form>
+                            </Formik>
                         </div>
                     </div>
                     <div className='footer-bottom-contact footer-bottom-inner'>
@@ -92,29 +118,29 @@ function Footer() {
                         <div>
                             <div className='footer-contact-sec'>
                                 <div className='contact-icon'>
-                                    <FaPhone/>
+                                    <FaPhone color='#63ab45'/>
                                 </div>
                                 <div className='contact-infos'>
-                                    <p>Drop a line</p>
-                                    <p>+00 (123) 456 889</p>
+                                    <p className='contact-info-header'>Drop a line</p>
+                                    <p className='contact-info-body'>+00 (123) 456 889</p>
                                 </div>
                             </div>
                             <div className='footer-contact-sec'>
                                 <div className='contact-icon'>
-                                        <FaEnvelope/>
+                                        <FaEnvelope color='#63ab45'/>
                                     </div>
                                     <div className='contact-infos'>
-                                        <p> Email Address</p>
-                                        <p>contact@example.com</p>
+                                        <p className='contact-info-header'> Email Address</p>
+                                        <p className='contact-info-body'>contact@example.com</p>
                                     </div>
                                 </div>
                             <div className='footer-contact-sec'>
                                 <div className='contact-icon'>
-                                        <FaLocationDot/>
+                                        <FaLocationDot color='#63ab45'/>
                                     </div>
                                     <div className='contact-infos'>
-                                        <p>Visit office</p>
-                                        <p>583 Main Street, NY, USA</p>
+                                        <p className='contact-info-header'>Visit office</p>
+                                        <p className='contact-info-body'>583 Main Street, NY, USA</p>
                                     </div>
                                 </div>
                         </div>

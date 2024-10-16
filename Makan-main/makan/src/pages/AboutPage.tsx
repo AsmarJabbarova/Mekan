@@ -7,7 +7,6 @@ const AboutPage: React.FC = () => {
       <div>
         <AboutTopSection/>
         <AboutBodySection/>
-        <AboutMembersSection/>
       </div>
     );
   }

@@ -1,5 +1,5 @@
 import {FaCartShopping, FaEnvelope, FaFacebook, FaInstagram, FaLocationDot, FaPinterest, FaXTwitter} from 'react-icons/fa6';
-import './Header.css'
+import './HeaderStyles.css'
 
 
 function Header() {
@@ -25,10 +25,10 @@ function Header() {
                         </a>
                     </div>
                     <div className='header-top-right-socials'>
-                        <a> <FaFacebook/> </a>
-                        <a> <FaXTwitter/> </a>
-                        <a> <FaInstagram/> </a>
-                        <a> <FaPinterest/> </a>
+                        <a href='https://www.facebook.com/' target="_blank"> <FaFacebook/> </a>
+                        <a href='https://www.x.com/' target="_blank"> <FaXTwitter/> </a>
+                        <a href='https://www.instagram.com/' target="_blank"> <FaInstagram/> </a>
+                        <a href='https://www.pinterest.com' target="_blank"> <FaPinterest/> </a>
                     </div>
                 </div>
             </section>

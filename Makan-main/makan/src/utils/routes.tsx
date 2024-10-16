@@ -5,6 +5,7 @@ import ErrorPage from "../pages/ErrorPage";
 import PlacesPage from "../pages/PlacesPage";
 import ContactPage from "../pages/ContactPage";
 import AboutPage from "../pages/AboutPage";
+import PlaceSinglePage from "../pages/PlaceSinglePage";
 
 export const router = createBrowserRouter([
     {
@@ -22,6 +23,10 @@ export const router = createBrowserRouter([
           {
             path: '/Places',
             element: <PlacesPage/>
+          },
+          {
+            path: '/Place/:id',
+            element: <PlaceSinglePage/>
           },
           {
             path: '/Contact',
