@@ -5,3 +5,12 @@
     border-width: 0px 0px 0px 1px;
     border-color: #e2dfeb;
 }
+.search-user-sec{
+    display: flex;
+    align-items: center;
+}
+.name-logo{
+    color: #4b8333 !important;
+    font-weight: 700;
+    font-size: 25px;
+}

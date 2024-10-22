@@ -1,0 +1,68 @@
+.signup-form-container {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .signup-form-container h2 {
+    font-size: 28px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  
+  .signup-form-button {
+    width: 100%;
+    height: 45px;
+    background-color: #63ab45;
+    border-color: none;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  
+  .signup-form-button:hover {
+    background-color:  #77bf59 !important; 
+  }
+  
+  .signup-form-container .ant-input,
+  .signup-form-container .ant-input-password {
+    padding: 10px;
+    font-size: 14px; 
+  }
+  
+  .signup-form-container .ant-input::placeholder,
+  .signup-form-container .ant-input-password::placeholder {
+    color: #a0a0a0; 
+    font-size: 14px;
+  }
+  
+  .signup-form-container .ant-form-item {
+    margin-bottom: 20px;
+  }
+  
+  .signup-form-container .ant-checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .signup-form-container .ant-checkbox-wrapper a {
+    color: #63ab45 !important;
+    text-decoration: underline;
+  }
+  
+  .signup-form-container .ant-checkbox-wrapper a:hover {
+    color: #63ab45 !important;
+  }
+  

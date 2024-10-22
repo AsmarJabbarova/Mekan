@@ -1,14 +1,19 @@
-.header-top{
+.header{
+    width: 100%;
     background-color: rgb(108, 179, 101);
+    background-image: url(https://gaviaspreview.com/wp/gowilds/wp-content/uploads/2022/12/pattern-topbar.png);
+    background-position: top left;
+    background-repeat: repeat;
+    display: flex;
+    justify-content: center;
+}
+.header-top{
     height: 40px;
 
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
-
-    background-image: url(https://gaviaspreview.com/wp/gowilds/wp-content/uploads/2022/12/pattern-topbar.png);
-    background-position: top left;
-    background-repeat: repeat;
+    justify-content: space-between;
+    width: 90%;
 }    
 .header-top-left{
     display: flex;
@@ -23,6 +28,9 @@
     flex-direction: row;
     align-items: center;
     padding: 20px;
+}
+.header-inner a:hover{
+    color: #F7921E;
 }
 .header-p{
     font-size: small;
@@ -45,6 +53,9 @@
 }
 
 @media screen and (max-width: 900px) {
+    .header-top{
+        justify-content: center;
+    }
     .header-top-left{
         display: none;
     }

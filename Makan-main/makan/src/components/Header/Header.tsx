@@ -4,7 +4,7 @@ import './HeaderStyles.css'
 
 function Header() {
     return (
-        <>
+        <div className='header'>
             <section className='header-top'>
                 <div className='header-top-left'>
                     <div className='header-inner'>
@@ -18,11 +18,11 @@ function Header() {
                 </div>
                 <div className='header-top-right'>
                     <div className='header-inner'>
-                        <a className='header-p'>Booking Now</a>
-                        <a className='header-p'>About</a>
-                        <a>
+                        <a className='header-p'>Find Now</a>
+                        <a className='header-p' href='/about'>About</a>
+                        {/* <a>
                             <FaCartShopping/>
-                        </a>
+                        </a> */}
                     </div>
                     <div className='header-top-right-socials'>
                         <a href='https://www.facebook.com/' target="_blank"> <FaFacebook/> </a>
@@ -32,7 +32,7 @@ function Header() {
                     </div>
                 </div>
             </section>
-        </>
+        </div>
     )
 }
 

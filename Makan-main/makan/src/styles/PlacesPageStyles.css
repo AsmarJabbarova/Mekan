@@ -1,0 +1,28 @@
+.places-main{
+    display: flex;
+    flex-direction: column;
+}
+
+.place-results-sec{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 50px 0px;
+}
+.place-results-sec-inner{
+    display: flex;
+    width: 80%;
+    gap: 30px;
+}
+.place-results-sec-right{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+@media screen and (max-width: 950px){
+    .place-results-sec-inner{
+        flex-direction: column;
+    }
+}

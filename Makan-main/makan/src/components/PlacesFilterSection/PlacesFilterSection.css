@@ -1,0 +1,11 @@
+.filter-rate-sec{
+    display: flex;
+    flex-direction: column;
+}
+
+.side-filter-sec{
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.1);
+    height: max-content;
+}

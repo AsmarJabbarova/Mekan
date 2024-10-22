@@ -1,0 +1,52 @@
+.login-form-container {
+    max-width: 350px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .login-form-container h2 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .error-message {
+    color: red;
+    font-size: 12px;
+  }
+  
+  .login-form-forgot {
+    float: right;
+  }
+  
+  .login-form-button {
+    width: 100%;
+    background-color: #63ab45;
+    border: none;
+  }
+  
+  .login-form-button:hover {
+  }
+  
+  .login-register-sec{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+
+  .login-register-sec p{
+    color: #82828a;
+    font-weight: 500;
+    line-height: 1.8em;
+    font-size: 16px;
+  }
+  .login-register-sec a{
+    color: #63ab45;
+    font-weight: 500;
+    line-height: 1.8em;
+    font-size: 16px;
+  }

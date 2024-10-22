@@ -1,0 +1,22 @@
+.place-result-filter-sec{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+.place-result-filter-sec-left{
+    display: flex;
+    align-items: center;
+}
+.place-result-filter-sec-right{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.filter-sec-p{
+    line-height: 20px;
+    font-weight: 500;
+    font-size: 16px;
+    min-width: 60px;
+}
