@@ -9,8 +9,73 @@
     display: flex;
     align-items: center;
 }
-.name-logo{
-    color: #4b8333 !important;
-    font-weight: 700;
-    font-size: 25px;
+
+.logo-img{
+    width: 80px;
 }
+
+.logout-button {
+    background: none;
+    border: none;
+    color: #63ab45;
+    font-size: 0.9em;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  .logout-button:hover {
+    text-decoration: underline;
+  }
+  
+  .dropdown-line {
+    margin: 0px 22px 0px 15px;
+    padding: 0px 0px 0px 20px;
+    border-left: 1px solid #e2dfeb;
+    display: flex;
+    align-items: center;
+  }
+  
+  .search-user-sec {
+    display: flex;
+    align-items: center;
+  }
+  
+  .search-bar-container {
+    position: relative;
+  }
+  
+  .search-bar {
+    width: 200px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    transition: width 0.3s ease;
+    margin-right: 10px;
+  }
+  
+  .search-bar:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+  
+  .search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+  }
+  
+  .search-result-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .search-result-item:hover {
+    background-color: #f1f1f1;
+  }
+  

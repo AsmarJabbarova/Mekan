@@ -1,0 +1,75 @@
+.booking-section {
+    background-color: #f9f9f9;
+    padding: 50px 100px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: max-content;
+  }
+  
+  .booking-section h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #333;
+    text-align: center;
+  }
+  
+  .booking-section .ant-picker,
+  .booking-section .add-to-basket-button {
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  .quantity-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 15px 0;
+  }
+  
+  .quantity-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    font-size: 1.2rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .quantity-button:hover {
+    background-color: #45a049;
+  }
+  
+  .quantity-display {
+    font-size: 1.2rem;
+    margin: 0 15px;
+    width: 30px;
+    text-align: center;
+  }
+  
+  .price-section {
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+    margin: 15px 0;
+  }
+  
+  .add-to-basket-button {
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: #4CAF50;
+    border: none;
+    margin-top: 15px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .add-to-basket-button:hover {
+    background-color: #45a049;
+  }
+  

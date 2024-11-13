@@ -1,19 +1,19 @@
-import '../styles/SignUpPageStyles.css'
-
 import React from 'react';
 import { Form, Input, Button, Checkbox } from 'antd';
 import { Formik, Form as FormikForm, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import axios from 'axios';
+import { useUser } from '../contexts/UserContext';
+import '../styles/SignUpPageStyles.css';
 
-// Validation schema for the form
 const validationSchema = Yup.object().shape({
   username: Yup.string().required('Please enter a username'),
-  email: Yup.string().email('Invalid email format').required('Please enter your email'),
-  password: Yup.string().min(6, 'Password must be at least 6 characters').required('Please enter your password'),
+  email: Yup.string().email('Invalid email').required('Please enter an email'),
+  password: Yup.string().required('Please enter a password'),
   confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password'), null], 'Passwords must match')
+    .oneOf([Yup.ref('password')], 'Passwords must match')
     .required('Please confirm your password'),
-  acceptTerms: Yup.boolean().oneOf([true], 'You must accept the terms and conditions')
+  acceptTerms: Yup.boolean().oneOf([true], 'You must accept the terms and conditions'),
 });
 
 interface SignUpFormValues {
@@ -30,22 +30,38 @@ const SignUpPage: React.FC = () => {
     email: '',
     password: '',
     confirmPassword: '',
-    acceptTerms: false
+    acceptTerms: false,
   };
 
-  const handleSubmit = (values: SignUpFormValues) => {
-    console.log('Registration values: ', values);
+  const { setUser } = useUser();
+
+  const handleSubmit = async (values: SignUpFormValues) => {
+    try {
+      await axios.post(`${import.meta.env.VITE_API_URL}/users`, {
+        username: values.username,
+        email: values.email,
+        password: values.password,
+      });
+  
+      alert('Registration successful! Please log in.');
+  
+      window.location.href = '/login';
+    } catch (error) {
+      console.error('Registration failed:', error);
+      alert('Registration failed. Please try again.');
+    }
   };
+  
 
   return (
     <div className="signup-form-container">
-      <h2>Register</h2>
+      <h2>Sign Up</h2>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ handleSubmit, handleChange, values }) => (
+        {({ handleSubmit, values, handleChange, setFieldValue }) => (
           <FormikForm onSubmit={handleSubmit}>
             <Form.Item>
               <Field
@@ -62,7 +78,7 @@ const SignUpPage: React.FC = () => {
               <Field
                 name="email"
                 as={Input}
-                placeholder="Email Address"
+                placeholder="Email"
                 value={values.email}
                 onChange={handleChange}
               />
@@ -93,18 +109,17 @@ const SignUpPage: React.FC = () => {
 
             <Form.Item>
               <Checkbox
-                name="acceptTerms"
                 checked={values.acceptTerms}
-                onChange={() => handleChange({ target: { name: 'acceptTerms', value: !values.acceptTerms } })}
+                onChange={(e) => setFieldValue('acceptTerms', e.target.checked)}
               >
-                I agree to the <a href="/terms">Terms and Conditions</a>
+                I accept the terms and conditions
               </Checkbox>
               <ErrorMessage name="acceptTerms" component="div" className="error-message" />
             </Form.Item>
 
             <Form.Item>
               <Button type="primary" htmlType="submit" className="signup-form-button">
-                Register
+                Sign Up
               </Button>
             </Form.Item>
           </FormikForm>

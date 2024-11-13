@@ -6,12 +6,20 @@
 
 .single-page-body-inner{
     display: flex;
+    flex-direction: column;
     justify-content: center;
     width: 80%;
+}
+.single-page-body-inner-top{
+    display: flex;
+    gap: 30px;
 }
 
 @media screen and (max-width: 950px){
     .single-page-body-inner{
         flex-direction: column;
+    }
+    .single-page-body-inner-top{
+        flex-direction: column-reverse;
     }
 }

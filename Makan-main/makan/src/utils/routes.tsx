@@ -20,7 +20,7 @@ export const router = createBrowserRouter([
             element: <ErrorPage />,
           },
           {
-            index: true, // This will map the default path `/` to HomePage
+            index: true, 
             element: <HomePage />,
           },
           {

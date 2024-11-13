@@ -16,9 +16,7 @@ hr{
 }
 
 .rating-sec{
-    border-style: solid;
-    border-width: 1px;
-    border-color: #739c85;
+    box-shadow: 0px 1px 6px #739c85;
     border-radius: 8px;
     display: inline-block;
     padding: 10px 60px 10px 80px;
@@ -48,3 +46,19 @@ hr{
     line-height: 1.8em;
     font-size: 16px;
 }
+
+.add-comment-title{
+    color: #82828a;
+    font-size: 20px;
+}
+
+.write-review-sec{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    padding: 30px;
+    box-shadow: 0px 1px 6px #739c85;
+    border-radius: 8px;
+}
+
