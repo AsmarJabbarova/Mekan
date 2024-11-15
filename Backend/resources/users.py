@@ -1,5 +1,5 @@
 from flask import request, current_app as app
-from flask_restx import Resource
+from flask_restx import Resource, fields, Namespace
 from sqlalchemy.exc import SQLAlchemyError
 from werkzeug.security import generate_password_hash
 from flask_jwt_extended import jwt_required
@@ -7,43 +7,58 @@ from models import User, db, UserPreference, UserAudit
 from utils import log_user_activity
 import os
 
+# Namespace
+api = Namespace('users', description='User related operations')
+
+# DTO Definitions
+user_preferences_dto = api.model('UserPreferences', {
+    'preferred_entertainment_type': fields.String(description='Preferred type of entertainment'),
+    'preferred_rating_range': fields.String(description='Preferred rating range'),
+    'preferred_language': fields.String(description='Preferred language'),
+    'preferred_location': fields.String(description='Preferred location'),
+    'preferred_price_range': fields.String(description='Preferred price range')
+})
+
+user_dto = api.model('User', {
+    'id': fields.Integer(description='Unique ID of the user'),
+    'username': fields.String(required=True, description='Username of the user'),
+    'email': fields.String(required=True, description='Email of the user'),
+    'status': fields.String(description='Status of the user'),
+    'last_online': fields.DateTime(description='Last online timestamp'),
+    'preferences': fields.Nested(user_preferences_dto, description='User preferences', allow_null=True)
+})
+
+user_create_dto = api.model('CreateUser', {
+    'username': fields.String(required=True, description='Username of the user'),
+    'email': fields.String(required=True, description='Email of the user'),
+    'password': fields.String(required=True, description='Password of the user'),
+    'preferences': fields.Nested(user_preferences_dto, description='User preferences', allow_null=True)
+})
+
+
 class UsersResource(Resource):
     @log_user_activity('fetch_users')
     @jwt_required()
+    @api.marshal_list_with(user_dto, envelope='users')
     def get(self):
+        """Fetch all users"""
         try:
             users = User.query.all()
-            result = [
-                {
-                    'id': user.id,
-                    'username': user.username,
-                    'email': user.email,
-                    'status': user.status,
-                    'last_online': user.last_online.isoformat() if user.last_online else None,
-                    'preferences': {
-                        'preferred_entertainment_type': user.preferences.preferred_entertainment_type,
-                        'preferred_rating_range': user.preferences.preferred_rating_range,
-                        'preferred_language': user.preferences.preferred_language,
-                        'preferred_location': user.preferences.preferred_location,
-                        'preferred_price_range': user.preferences.preferred_price_range
-                    } if user.preferences else None
-                } for user in users
-            ]
-            return result, 200
+            return users, 200
         except SQLAlchemyError as e:
             app.logger.error('Error fetching users: %s', str(e))
             return {'message': 'An error occurred while fetching users.'}, 500
 
     @log_user_activity('create_user')
+    @api.expect(user_create_dto, validate=True)
     def post(self):
+        """Create a new user"""
         try:
             data = request.get_json()
-            if not data.get('username') or not data.get('email') or not data.get('password'):
-                return {'message': 'Username, email, and password are required fields.'}, 400
 
             password_salt = os.urandom(16).hex()
             password_hash = generate_password_hash(data['password'] + password_salt, method='pbkdf2:sha256')
-            
+
             new_user = User(
                 username=data['username'],
                 email=data['email'],
@@ -79,32 +94,23 @@ class UsersResource(Resource):
             app.logger.error('Error creating user: %s', str(e))
             return {'message': 'An error occurred while creating the user.'}, 500
 
+
 class UserResource(Resource):
     @jwt_required()
+    @api.marshal_with(user_dto)
     def get(self, user_id):
+        """Fetch a user by ID"""
         try:
             user = User.query.get_or_404(user_id)
-            result = {
-                'id': user.id,
-                'username': user.username,
-                'email': user.email,
-                'status': user.status,
-                'last_online': user.last_online.isoformat() if user.last_online else None,
-                'preferences': {
-                    'preferred_entertainment_type': user.preferences.preferred_entertainment_type if user.preferences else None,
-                    'preferred_rating_range': user.preferences.preferred_rating_range if user.preferences else None,
-                    'preferred_language': user.preferences.preferred_language if user.preferences else None,
-                    'preferred_location': user.preferences.preferred_location if user.preferences else None,
-                    'preferred_price_range': user.preferences.preferred_price_range if user.preferences else None
-                }
-            }
-            return result, 200
+            return user, 200
         except SQLAlchemyError as e:
             app.logger.error('Error fetching user: %s', str(e))
             return {'message': 'An error occurred while fetching the user.'}, 500
 
     @jwt_required()
+    @api.expect(user_create_dto, validate=True)
     def put(self, user_id):
+        """Update a user by ID"""
         try:
             data = request.get_json()
             user = User.query.get_or_404(user_id)
@@ -118,9 +124,6 @@ class UserResource(Resource):
                 user.password_hash = generate_password_hash(data['password'] + user.password_salt, method='pbkdf2:sha256')
             if 'status' in data:
                 user.status = data['status']
-            if 'last_online' in data:
-                user.last_online = data['last_online'].isoformat()
-
             if 'preferences' in data:
                 preferences_data = data['preferences']
                 if user.preferences:
@@ -157,6 +160,7 @@ class UserResource(Resource):
 
     @jwt_required()
     def delete(self, user_id):
+        """Delete a user by ID"""
         try:
             user = User.query.get_or_404(user_id)
             db.session.delete(user)
@@ -164,8 +168,7 @@ class UserResource(Resource):
 
             audit = UserAudit(
                 user_id=user.id,
-                action='deleted user',
-                changed_data=None
+                action='deleted user'
             )
             db.session.add(audit)
             db.session.commit()

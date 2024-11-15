@@ -1,34 +1,48 @@
 from flask import current_app as app
-from flask_restx import Resource, reqparse
+from flask_restx import Resource, Namespace, fields
 from sqlalchemy.exc import SQLAlchemyError
 from flask_jwt_extended import jwt_required
 from models import db, EntertainmentType
 from utils import log_user_activity
 
+# Namespace
+api = Namespace('entertainment_types', description='Operations related to entertainment types')
+
+# DTO Definitions
+entertainment_type_dto = api.model('EntertainmentType', {
+    'id': fields.Integer(description='Unique ID of the entertainment type'),
+    'name': fields.String(required=True, description='Name of the entertainment type')
+})
+
+create_entertainment_type_dto = api.model('CreateEntertainmentType', {
+    'name': fields.String(required=True, description='Name of the entertainment type')
+})
+
+
 class EntertainmentTypesResource(Resource):
     @log_user_activity('view_entertainment_types')
     @jwt_required()
+    @api.marshal_list_with(entertainment_type_dto, envelope='data')
     def get(self):
+        """Fetch all entertainment types"""
         try:
             types = EntertainmentType.query.all()
-            result = [{'id': etype.id, 'name': etype.name} for etype in types]
-            return {'data': result}, 200
+            return types, 200
         except SQLAlchemyError as e:
             app.logger.error('Error fetching entertainment types: %s', str(e))
             return {'message': 'Error fetching entertainment types. Please try again.'}, 500
 
     @log_user_activity('create_entertainment_type')
     @jwt_required()
+    @api.expect(create_entertainment_type_dto, validate=True)
     def post(self):
-        parser = reqparse.RequestParser()
-        parser.add_argument('name', required=True, help='Name cannot be blank')
-        args = parser.parse_args()
-
-        if EntertainmentType.query.filter_by(name=args['name']).first():
-            return {'message': 'Entertainment type with this name already exists.'}, 400
-        
+        """Create a new entertainment type"""
+        data = api.payload
         try:
-            new_type = EntertainmentType(name=args['name'])
+            if EntertainmentType.query.filter_by(name=data['name']).first():
+                return {'message': 'Entertainment type with this name already exists.'}, 400
+
+            new_type = EntertainmentType(name=data['name'])
             db.session.add(new_type)
             db.session.commit()
             return {'message': 'Entertainment type created successfully', 'data': {'id': new_type.id}}, 201
@@ -36,32 +50,31 @@ class EntertainmentTypesResource(Resource):
             app.logger.error('Error creating entertainment type: %s', str(e))
             return {'message': 'Error creating entertainment type. Please check inputs and try again.'}, 500
 
+
 class EntertainmentTypeResource(Resource):
     @jwt_required()
+    @api.marshal_with(entertainment_type_dto, envelope='data')
     def get(self, etype_id):
+        """Fetch a specific entertainment type"""
         try:
             etype = EntertainmentType.query.get_or_404(etype_id)
-            result = {'id': etype.id, 'name': etype.name}
-            return {'data': result}, 200
+            return etype, 200
         except SQLAlchemyError as e:
             app.logger.error('Error fetching entertainment type: %s', str(e))
             return {'message': 'Error fetching entertainment type. Please try again.'}, 500
 
     @jwt_required()
+    @api.expect(create_entertainment_type_dto, validate=True)
     def put(self, etype_id):
-        parser = reqparse.RequestParser()
-        parser.add_argument('name', type=str)
-        args = parser.parse_args()
-
-        if args['name']:
-            existing_type = EntertainmentType.query.filter_by(name=args['name']).first()
-            if existing_type:
-                return {'message': 'Entertainment type with this name already exists.'}, 400
-
+        """Update an entertainment type"""
+        data = api.payload
         try:
             etype = EntertainmentType.query.get_or_404(etype_id)
-            if args['name']:
-                etype.name = args['name']
+
+            if data['name'] and EntertainmentType.query.filter_by(name=data['name']).first():
+                return {'message': 'Entertainment type with this name already exists.'}, 400
+
+            etype.name = data['name']
             db.session.commit()
             return {'message': 'Entertainment type updated successfully'}, 200
         except SQLAlchemyError as e:
@@ -70,6 +83,7 @@ class EntertainmentTypeResource(Resource):
 
     @jwt_required()
     def delete(self, etype_id):
+        """Delete an entertainment type"""
         try:
             etype = EntertainmentType.query.get_or_404(etype_id)
             db.session.delete(etype)

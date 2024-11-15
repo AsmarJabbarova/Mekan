@@ -1,90 +1,116 @@
 from flask import current_app as app
-from flask_restx import Resource, reqparse
+from flask_restx import Resource, Namespace, fields
 from sqlalchemy.exc import SQLAlchemyError
 from flask_jwt_extended import jwt_required
 from models import db, Promotion
 from utils import log_user_activity
 
+# Namespace
+api = Namespace('promotions', description='Operations related to promotions')
+
+# DTO Definitions
+promotion_dto = api.model('Promotion', {
+    'id': fields.Integer(description='Unique ID of the promotion'),
+    'code': fields.String(required=True, description='Unique code for the promotion'),
+    'discount': fields.Float(required=True, description='Discount percentage or value'),
+    'valid_from': fields.String(required=True, description='Start date of the promotion'),
+    'valid_to': fields.String(required=True, description='End date of the promotion')
+})
+
+create_promotion_dto = api.model('CreatePromotion', {
+    'code': fields.String(required=True, description='Unique code for the promotion'),
+    'discount': fields.Float(required=True, description='Discount percentage or value'),
+    'valid_from': fields.String(required=True, description='Start date of the promotion'),
+    'valid_to': fields.String(required=True, description='End date of the promotion')
+})
+
+def format_promotion(promotion):
+    """Helper function to format a Promotion object into a dictionary."""
+    return {
+        'id': promotion.id,
+        'code': promotion.code,
+        'discount': promotion.discount,
+        'valid_from': promotion.valid_from,
+        'valid_to': promotion.valid_to
+    }
+
+
 class PromotionsResource(Resource):
     @log_user_activity('view_promotions')
     @jwt_required()
+    @api.marshal_list_with(promotion_dto, envelope='data')
     def get(self):
+        """Fetch all promotions."""
         try:
             promotions = Promotion.query.all()
-            result = [{'id': promo.id, 'code': promo.code, 'discount': promo.discount, 'valid_from': promo.valid_from, 'valid_to': promo.valid_to} for promo in promotions]
-            return {'data': result}, 200
+            return promotions, 200
         except SQLAlchemyError as e:
             app.logger.error('Error fetching promotions: %s', str(e))
             return {'message': 'Error fetching promotions. Please try again.'}, 500
 
     @log_user_activity('create_promotion')
     @jwt_required()
+    @api.expect(create_promotion_dto, validate=True)
     def post(self):
-        parser = reqparse.RequestParser()
-        parser.add_argument('code', required=True, help='Code cannot be blank')
-        parser.add_argument('discount', required=True, type=float, help='Discount cannot be blank')
-        parser.add_argument('valid_from', required=True, help='valid_from cannot be blank')
-        parser.add_argument('valid_to', required=True, help='valid_to cannot be blank')
-        args = parser.parse_args()
+        """Create a new promotion."""
+        data = api.payload
 
         try:
             new_promotion = Promotion(
-                code=args['code'],
-                discount=args['discount'],
-                valid_from=args['valid_from'],
-                valid_to=args['valid_to']
+                code=data['code'],
+                discount=data['discount'],
+                valid_from=data['valid_from'],
+                valid_to=data['valid_to']
             )
             db.session.add(new_promotion)
             db.session.commit()
-            return {'message': 'Promotion created successfully', 'data': {'id': new_promotion.id}}, 201
+            return {'message': 'Promotion created successfully', 'data': format_promotion(new_promotion)}, 201
         except SQLAlchemyError as e:
             app.logger.error('Error creating promotion: %s', str(e))
             return {'message': 'Failed to create promotion. Please try again.'}, 500
 
+
 class PromotionResource(Resource):
+    @log_user_activity('view_promotion')
     @jwt_required()
+    @api.marshal_with(promotion_dto, envelope='data')
     def get(self, promo_id):
+        """Fetch a specific promotion by ID."""
         try:
             promo = Promotion.query.get_or_404(promo_id)
-            result = {
-                'id': promo.id,
-                'code': promo.code,
-                'discount': promo.discount,
-                'valid_from': promo.valid_from,
-                'valid_to': promo.valid_to
-            }
-            return {'data': result}, 200
+            return promo, 200
         except SQLAlchemyError as e:
             app.logger.error('Error fetching promotion: %s', str(e))
             return {'message': 'Error fetching promotion. Please try again.'}, 500
 
+    @log_user_activity('update_promotion')
     @jwt_required()
+    @api.expect(create_promotion_dto, validate=False)
     def put(self, promo_id):
-        parser = reqparse.RequestParser()
-        parser.add_argument('code', type=str)
-        parser.add_argument('discount', type=float)
-        parser.add_argument('valid_from', type=str)
-        parser.add_argument('valid_to', type=str)
-        args = parser.parse_args()
+        """Update a promotion by ID."""
+        data = api.payload
 
         try:
             promo = Promotion.query.get_or_404(promo_id)
-            if 'code' in args:
-                promo.code = args['code']
-            if 'discount' in args:
-                promo.discount = args['discount']
-            if 'valid_from' in args:
-                promo.valid_from = args['valid_from']
-            if 'valid_to' in args:
-                promo.valid_to = args['valid_to']
+            if 'code' in data:
+                promo.code = data['code']
+            if 'discount' in data:
+                promo.discount = data['discount']
+            if 'valid_from' in data:
+                promo.valid_from = data['valid_from']
+            if 'valid_to' in data:
+                promo.valid_to = data['valid_to']
+            
             db.session.commit()
-            return {'message': 'Promotion updated successfully'}, 200
+            return {'message': 'Promotion updated successfully', 'data': format_promotion(promo)}, 200
         except SQLAlchemyError as e:
             app.logger.error('Error updating promotion: %s', str(e))
             return {'message': 'Failed to update promotion. Please try again.'}, 500
 
+    @log_user_activity('delete_promotion')
     @jwt_required()
     def delete(self, promo_id):
+        """Delete a promotion by ID."""
         try:
             promo = Promotion.query.get_or_404(promo_id)
             db.session.delete(promo)

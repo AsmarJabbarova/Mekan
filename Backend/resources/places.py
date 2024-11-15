@@ -1,51 +1,78 @@
 from flask import current_app as app
-from flask_restx import Resource, reqparse
+from flask_restx import Resource, Namespace, fields
 from sqlalchemy.exc import SQLAlchemyError
 from flask_jwt_extended import jwt_required
-from models import db, Place, EntertainmentType
+from models import db, Place, EntertainmentType, PlaceCategory
 from utils import log_user_activity
+
+# Namespace
+api = Namespace('places', description='Operations related to places')
+
+# DTO Definitions
+place_dto = api.model('Place', {
+    'id': fields.Integer(description='Unique ID of the place'),
+    'name': fields.String(required=True, description='Name of the place'),
+    'location': fields.String(required=True, description='Location of the place'),
+    'rating': fields.Float(required=True, description='Rating of the place (1.0 to 5.0)'),
+    'entertainment_type_id': fields.Integer(required=True, description='Entertainment type ID linked to the place')
+})
+
+create_place_dto = api.model('CreatePlace', {
+    'name': fields.String(required=True, description='Name of the place'),
+    'location': fields.String(required=True, description='Location of the place'),
+    'rating': fields.Float(required=True, description='Rating of the place (1.0 to 5.0)'),
+    'entertainment_type_id': fields.Integer(required=True, description='Entertainment type ID linked to the place')
+})
+
 
 class PlacesResource(Resource):
     @log_user_activity('view_places')
     @jwt_required()
+    @api.marshal_list_with(place_dto, envelope='data')
     def get(self):
+        """Fetch all places"""
         try:
             places = Place.query.all()
-            result = [{
-                'id': place.id,
-                'name': place.name,
-                'location': place.location,
-                'rating': place.rating,
-                'entertainment_type_id': place.entertainment_type_id
-            } for place in places]
-            return {'data': result}, 200
+            return places, 200
         except SQLAlchemyError as e:
             app.logger.error('Error fetching places: %s', str(e))
             return {'message': 'Failed to fetch places. Please try again.'}, 500
 
     @log_user_activity('create_place')
     @jwt_required()
+    @api.expect(create_place_dto, validate=True)
     def post(self):
-        parser = reqparse.RequestParser()
-        parser.add_argument('name', required=True, help='Name cannot be blank')
-        parser.add_argument('location', required=True, help='Location cannot be blank')
-        parser.add_argument('rating', type=float, required=True, help='Rating cannot be blank and must be a number')
-        parser.add_argument('entertainment_type_id', type=int, required=True, help='Entertainment Type ID cannot be blank and must be an integer')
-        args = parser.parse_args()
-
-        if not (1.0 <= args['rating'] <= 5.0):
-            return {'message': 'Rating must be between 1.0 and 5.0'}, 400
-
-        entertainment_type = EntertainmentType.query.get(args['entertainment_type_id'])
-        if not entertainment_type:
-            return {'message': 'Invalid entertainment type ID'}, 404
-
+        """Create a new place"""
+        data = api.payload
         try:
+            location_ = data['location'] if 'location' in data else None
+            latitude_ = data['latitude'] if 'latitude' in data else None
+            longitude_ = data['longitude'] if 'longitude' in data else None
+
+            if not (1.0 <= data['rating'] <= 5.0):
+                return {'message': 'Rating must be between 1.0 and 5.0'}, 400
+
+            entertainment_type = EntertainmentType.query.get(data['entertainment_type_id'])
+            if not entertainment_type:
+                return {'message': 'Invalid entertainment type ID'}, 404
+
+            place_category = PlaceCategory.query.get(data['category_id'])
+            if not place_category:
+                return {'message': 'Invalid category ID'}, 404
+
+            default_price_ = data['default_price'] if 'default_price' in data else None
+
             new_place = Place(
-                name=args['name'],
-                location=args['location'],
-                rating=args['rating'],
-                entertainment_type_id=args['entertainment_type_id']
+                name=data['name'],
+                location = location_,
+                latitude = latitude_,
+                longitude = longitude_,
+                rating=data['rating'],
+                entertainment_type_id=data['entertainment_type_id'],
+                category_id=data['category_id'],
+                default_price = default_price_,
+                images=data['images'],
+                description=data['description']
             )
             db.session.add(new_place)
             db.session.commit()
@@ -54,50 +81,60 @@ class PlacesResource(Resource):
             app.logger.error('Error creating place: %s', str(e))
             return {'message': 'Failed to create place. Please check inputs and try again.'}, 500
 
+
 class PlaceResource(Resource):
     @jwt_required()
+    @api.marshal_with(place_dto, envelope='data')
     def get(self, place_id):
+        """Fetch a specific place"""
         try:
             place = Place.query.get_or_404(place_id)
-            result = {
-                'id': place.id,
-                'name': place.name,
-                'location': place.location,
-                'rating': place.rating,
-                'entertainment_type_id': place.entertainment_type_id
-            }
-            return {'data': result}, 200
+            return place, 200
         except SQLAlchemyError as e:
             app.logger.error('Error fetching place: %s', str(e))
             return {'message': 'Failed to fetch place. Please try again.'}, 500
 
     @jwt_required()
+    @api.expect(create_place_dto, validate=True)
     def put(self, place_id):
-        parser = reqparse.RequestParser()
-        parser.add_argument('name', type=str)
-        parser.add_argument('location', type=str)
-        parser.add_argument('rating', type=float)
-        parser.add_argument('entertainment_type_id', type=int)
-        args = parser.parse_args()
-
-        if args['rating'] and not (1.0 <= args['rating'] <= 5.0):
-            return {'message': 'Rating must be between 1.0 and 5.0'}, 400
-
-        if args['entertainment_type_id']:
-            entertainment_type = EntertainmentType.query.get(args['entertainment_type_id'])
-            if not entertainment_type:
-                return {'message': 'Invalid entertainment type ID'}, 404
-
+        """Update a specific place"""
+        data = api.payload
         try:
+            if 'rating' in data and not (1.0 <= data['rating'] <= 5.0):
+                return {'message': 'Rating must be between 1.0 and 5.0'}, 400
+
+            if 'entertainment_type_id' in data:
+                entertainment_type = EntertainmentType.query.get(data['entertainment_type_id'])
+                if not entertainment_type:
+                    return {'message': 'Invalid entertainment type ID'}, 404
+
+            if 'category_id' in data:
+                place_category = PlaceCategory.query.get(data['category_id'])
+                if not place_category:
+                    return {'message': 'Invalid category ID'}, 404
+
             place = Place.query.get_or_404(place_id)
-            if args['name']:
-                place.name = args['name']
-            if args['location']:
-                place.location = args['location']
-            if args['rating']:
-                place.rating = args['rating']
-            if args['entertainment_type_id']:
-                place.entertainment_type_id = args['entertainment_type_id']
+            if 'name' in data:
+                place.name = data['name']
+            if 'location' in data:
+                place.location = data['location']
+            if 'latitude' in data:
+                place.latitude = data['latitude']
+            if 'longitude' in data:
+                place.longitude = data['longitude']
+            if 'rating' in data:
+                place.rating = data['rating']
+            if 'entertainment_type_id' in data:
+                place.entertainment_type_id = data['entertainment_type_id']
+            if 'category_id' in data:
+                place.category_id = data['category_id']
+            if 'defualt_price' in data:
+                place.defualt_price = data['defualt_price']
+            if 'images' in data:
+                place.images = data['images']
+            if 'description' in data:
+                place.description = data['description']
+            
             db.session.commit()
             return {'message': 'Place updated successfully'}, 200
         except SQLAlchemyError as e:
@@ -106,6 +143,7 @@ class PlaceResource(Resource):
 
     @jwt_required()
     def delete(self, place_id):
+        """Delete a specific place"""
         try:
             place = Place.query.get_or_404(place_id)
             db.session.delete(place)

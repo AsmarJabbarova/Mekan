@@ -1,95 +1,103 @@
 from flask import current_app as app
-from flask_restx import Resource, reqparse
+from flask_restx import Resource, Namespace, fields
 from sqlalchemy.exc import SQLAlchemyError
 from flask_jwt_extended import jwt_required
 from models import db, RouteSegment
 from utils import log_user_activity
 
+# Namespace
+api = Namespace('route_segments', description='Operations related to route segments')
+
+# DTO Definitions
+route_segment_model = api.model('RouteSegment', {
+    'id': fields.Integer(description='The unique identifier of the route segment', readonly=True),
+    'start_place_id': fields.Integer(required=True, description='The ID of the starting place'),
+    'end_place_id': fields.Integer(required=True, description='The ID of the ending place'),
+    'distance': fields.Float(required=True, description='The distance of the segment in kilometers'),
+    'duration': fields.String(required=True, description='The estimated duration of the segment'),
+})
+
+create_route_segment_model = api.model('CreateRouteSegment', {
+    'start_place_id': fields.Integer(required=True, description='The ID of the starting place'),
+    'end_place_id': fields.Integer(required=True, description='The ID of the ending place'),
+    'distance': fields.Float(required=True, description='The distance of the segment in kilometers'),
+    'duration': fields.String(required=True, description='The estimated duration of the segment'),
+})
+
+
 class RouteSegmentsResource(Resource):
     @log_user_activity('view_route_segments')
     @jwt_required()
+    @api.marshal_with(route_segment_model, as_list=True)
     def get(self):
+        """Get all route segments."""
         try:
             segments = RouteSegment.query.all()
-            result = [{'id': segment.id, 'start_place_id': segment.start_place_id, 'end_place_id': segment.end_place_id, 'distance': segment.distance, 'duration': segment.duration} for segment in segments]
-            return {'data': result}, 200
+            return segments, 200
         except SQLAlchemyError as e:
             app.logger.error('Error fetching route segments: %s', str(e))
-            return {'message': 'Error fetching segments. Please try again.'}, 500
+            api.abort(500, 'Error fetching route segments. Please try again.')
 
     @log_user_activity('create_route_segment')
     @jwt_required()
+    @api.expect(create_route_segment_model, validate=True)
+    @api.marshal_with(route_segment_model, code=201)
     def post(self):
-        parser = reqparse.RequestParser()
-        parser.add_argument('start_place_id', required=True, help='start_place_id cannot be blank')
-        parser.add_argument('end_place_id', required=True, help='end_place_id cannot be blank')
-        parser.add_argument('distance', required=True, type=float, help='distance cannot be blank')
-        parser.add_argument('duration', required=True, help='duration cannot be blank')
-        args = parser.parse_args()
-
+        """Create a new route segment."""
+        data = api.payload
         try:
             new_segment = RouteSegment(
-                start_place_id=args['start_place_id'],
-                end_place_id=args['end_place_id'],
-                distance=args['distance'],
-                duration=args['duration']
+                start_place_id=data['start_place_id'],
+                end_place_id=data['end_place_id'],
+                distance=data['distance'],
+                duration=data['duration']
             )
             db.session.add(new_segment)
             db.session.commit()
-            return {'message': 'Route segment created successfully', 'data': {'id': new_segment.id}}, 201
+            return new_segment, 201
         except SQLAlchemyError as e:
             app.logger.error('Error creating route segment: %s', str(e))
-            return {'message': 'Failed to create route segment. Please try again.'}, 500
+            api.abort(500, 'Failed to create route segment. Please try again.')
+
 
 class RouteSegmentResource(Resource):
     @jwt_required()
+    @api.marshal_with(route_segment_model)
     def get(self, segment_id):
+        """Get a specific route segment by its ID."""
         try:
             segment = RouteSegment.query.get_or_404(segment_id)
-            result = {
-                'id': segment.id,
-                'start_place_id': segment.start_place_id,
-                'end_place_id': segment.end_place_id,
-                'distance': segment.distance,
-                'duration': segment.duration
-            }
-            return {'data': result}, 200
+            return segment, 200
         except SQLAlchemyError as e:
-            app.logger.error('Error fetching route segment: %s', str(e))
-            return {'message': 'Error fetching segment. Please try again.'}, 500
+            app.logger.error('Error fetching route segment with ID %s: %s', segment_id, str(e))
+            api.abort(500, 'Error fetching route segment. Please try again.')
 
     @jwt_required()
+    @api.expect(create_route_segment_model, validate=True)
+    @api.marshal_with(route_segment_model)
     def put(self, segment_id):
-        parser = reqparse.RequestParser()
-        parser.add_argument('start_place_id', type=int)
-        parser.add_argument('end_place_id', type=int)
-        parser.add_argument('distance', type=float)
-        parser.add_argument('duration', type=str)
-        args = parser.parse_args()
-
+        """Update a route segment."""
+        data = api.payload
         try:
             segment = RouteSegment.query.get_or_404(segment_id)
-            if 'start_place_id' in args:
-                segment.start_place_id = args['start_place_id']
-            if 'end_place_id' in args:
-                segment.end_place_id = args['end_place_id']
-            if 'distance' in args:
-                segment.distance = args['distance']
-            if 'duration' in args:
-                segment.duration = args['duration']
+            segment.start_place_id = data.get('start_place_id', segment.start_place_id)
+            segment.end_place_id = data.get('end_place_id', segment.end_place_id)
+            segment.distance = data.get('distance', segment.distance)
+            segment.duration = data.get('duration', segment.duration)
             db.session.commit()
-            return {'message': 'Route segment updated successfully'}, 200
+            return segment, 200
         except SQLAlchemyError as e:
-            app.logger.error('Error updating route segment: %s', str(e))
-            return {'message': 'Failed to update route segment. Please try again.'}, 500
+            app.logger.error('Error updating route segment with ID %s: %s', segment_id, str(e))
+            api.abort(500, 'Failed to update route segment. Please try again.')
 
     @jwt_required()
     def delete(self, segment_id):
+        """Delete a route segment."""
         try:
             segment = RouteSegment.query.get_or_404(segment_id)
             db.session.delete(segment)
             db.session.commit()
             return {'message': 'Route segment deleted successfully'}, 200
         except SQLAlchemyError as e:
-            app.logger.error('Error deleting route segment: %s', str(e))
-            return {'message': 'Failed to delete route segment. Please try again.'}, 500
+            app.logger.error('Error deleting route segment with ID %s: %s', segment_id, str(e))
+            api.abort(500, 'Failed to delete route segment. Please try again.')
