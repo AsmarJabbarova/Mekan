@@ -14,20 +14,29 @@ from datetime import timedelta
 from models import db, User
 from db import close_db_connection
 from resources.users import UsersResource, UserResource
-from resources.users_audits import UsersAuditResource
-from resources.entertainment_types import EntertainmentTypesResource, EntertainmentTypeResource
-from resources.places import PlacesResource, PlaceResource
-from resources.reviews import ReviewsResource, ReviewResource
-from resources.companies import CompaniesResource, CompanyResource
-from resources.languages import LanguagesResource, LanguageResource
-from resources.drivers import DriversResource, DriverResource
-from resources.assignments import AssignmentsResource, AssignmentResource
-from resources.login import UserLogin, UserLogout
-from resources.bookings import BookingsResource, BookingResource
-from resources.payments import PaymentsResource, PaymentResource
-from resources.transportations import TransportationsResource, TransportationResource
 from resources.user_preferences import UserPreferencesResource, UserPreferenceResource
 from resources.user_sessions import UserSessionsResource, UserSessionResource
+from resources.user_audits import UserAuditsResource
+from resources.login import UserLogin, UserLogout
+from resources.emergency_contacts import EmergencyContactsResource, EmergencyContactResource
+from resources.entertainment_types import EntertainmentTypesResource, EntertainmentTypeResource
+from resources.places import PlacesResource, PlaceResource
+from resources.place_categories import PlaceCategoriesResource, PlaceCategoryResource
+from resources.place_translations import PlaceTranslationsResource, PlaceTranslationResource
+from resources.reviews import ReviewsResource, ReviewResource
+from resources.review_medias import ReviewMediasResource, ReviewMediaResource
+from resources.companies import CompaniesResource, CompanyResource
+from resources.drivers import DriversResource, DriverResource
+from resources.languages import LanguagesResource, LanguageResource
+from resources.assignments import AssignmentsResource, AssignmentResource
+from resources.bookings import BookingsResource, BookingResource
+from resources.booking_transactions import BookingTransactionsResource, BookingTransactionResource
+from resources.currencies import CurrenciesResource, CurrencyResource
+from resources.pricing_rules import PricingRulesResource, PricingRuleResource
+from resources.promotions import PromotionsResource, PromotionResource
+from resources.payments import PaymentsResource, PaymentResource
+from resources.transportations import TransportationsResource, TransportationResource
+from resources.route_segments import RouteSegmentsResource, RouteSegmentResource
 import os
 
 # Role-based access control decorator
@@ -52,8 +61,6 @@ redis_client = Redis(
     db=0
 )
 
-redis_client.ping()
-
 # Limiter
 limiter = Limiter(
     get_remote_address,
@@ -71,10 +78,9 @@ def index():
 # Load environment variables from .env
 load_dotenv()
 
-
 # Database, JWT and Migration setup
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI', 'mysql+pymysql://root:@localhost/mekan')
-app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY', 'e607fabba6613e1a5d00bb5edcc929ac213c494de724ad2d')
+app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY', 'jwt_secret_key')
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
 app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(days=30)
 
@@ -138,33 +144,51 @@ def not_found_error(error):
 # Registering resources
 rest_api.add_resource(UsersResource, '/users')
 rest_api.add_resource(UserResource, '/users/<int:user_id>')
-rest_api.add_resource(UserLogin, '/login')
-rest_api.add_resource(UserLogout, '/logout')
-rest_api.add_resource(UsersAuditResource, '/users_audit')
-rest_api.add_resource(EntertainmentTypesResource, '/entertainment_types')
-rest_api.add_resource(EntertainmentTypeResource, '/entertainment_types/<int:entertainment_type_id>')
-rest_api.add_resource(PlacesResource, '/places')
-rest_api.add_resource(PlaceResource, '/places/<int:place_id>')
-rest_api.add_resource(ReviewsResource, '/reviews')
-rest_api.add_resource(ReviewResource, '/reviews/<int:review_id>')
-rest_api.add_resource(CompaniesResource, '/companies')
-rest_api.add_resource(CompanyResource, '/companies/<int:company_id>')
-rest_api.add_resource(LanguagesResource, '/languages')
-rest_api.add_resource(LanguageResource, '/languages/<int:language_id>')
-rest_api.add_resource(DriversResource, '/drivers')
-rest_api.add_resource(DriverResource, '/drivers/<int:driver_id>')
-rest_api.add_resource(AssignmentsResource, '/assignments')
-rest_api.add_resource(AssignmentResource, '/assignments/<int:assignment_id>')
-rest_api.add_resource(BookingsResource, '/bookings')
-rest_api.add_resource(BookingResource, '/bookings/<int:booking_id>')
-rest_api.add_resource(PaymentsResource, '/payments')
-rest_api.add_resource(PaymentResource, '/payments/<int:payment_id>')
-rest_api.add_resource(TransportationsResource, '/transportations')
-rest_api.add_resource(TransportationResource, '/transportations/<int:transportation_id>')
 rest_api.add_resource(UserPreferencesResource, '/user_preferences')
 rest_api.add_resource(UserPreferenceResource, '/user_preferences/<int:preference_id>')
 rest_api.add_resource(UserSessionsResource, '/user_sessions')
 rest_api.add_resource(UserSessionResource, '/user_sessions/<int:session_id>')
+rest_api.add_resource(UserAuditsResource, '/user_audits')
+rest_api.add_resource(UserLogin, '/login')
+rest_api.add_resource(UserLogout, '/logout')
+rest_api.add_resource(EmergencyContactsResource, '/emergency_contacts')
+rest_api.add_resource(EmergencyContactResource, '/emergency_contacts/<int:contact_id>')
+rest_api.add_resource(EntertainmentTypesResource, '/entertainment_types')
+rest_api.add_resource(EntertainmentTypeResource, '/entertainment_types/<int:etype_id>')
+rest_api.add_resource(PlacesResource, '/places')
+rest_api.add_resource(PlaceResource, '/places/<int:place_id>')
+rest_api.add_resource(PlaceCategoriesResource, '/place_categories')
+rest_api.add_resource(PlaceCategoryResource, '/place_categories/<int:category_id>')
+rest_api.add_resource(PlaceTranslationsResource, '/place_translations')
+rest_api.add_resource(PlaceTranslationResource, '/place_translations/<int:translation_id>')
+rest_api.add_resource(ReviewsResource, '/reviews')
+rest_api.add_resource(ReviewResource, '/reviews/<int:review_id>')
+rest_api.add_resource(ReviewMediasResource, '/review_medias')
+rest_api.add_resource(ReviewMediaResource, '/review_medias/<int:media_id>')
+rest_api.add_resource(CompaniesResource, '/companies')
+rest_api.add_resource(CompanyResource, '/companies/<int:company_id>')
+rest_api.add_resource(DriversResource, '/drivers')
+rest_api.add_resource(DriverResource, '/drivers/<int:driver_id>')
+rest_api.add_resource(LanguagesResource, '/languages')
+rest_api.add_resource(LanguageResource, '/languages/<int:language_id>')
+rest_api.add_resource(AssignmentsResource, '/assignments')
+rest_api.add_resource(AssignmentResource, '/assignments/<int:assignment_id>')
+rest_api.add_resource(BookingsResource, '/bookings')
+rest_api.add_resource(BookingResource, '/bookings/<int:booking_id>')
+rest_api.add_resource(BookingTransactionsResource, '/booking_transactions')
+rest_api.add_resource(BookingTransactionResource, '/booking_transactions/<int:transaction_id>')
+rest_api.add_resource(CurrenciesResource, '/currencies')
+rest_api.add_resource(CurrencyResource, '/currencies/<int:currency_id>')
+rest_api.add_resource(PricingRulesResource, '/pricing_rules')
+rest_api.add_resource(PricingRuleResource, '/pricing_rules/<int:rule_id>')
+rest_api.add_resource(PromotionsResource, '/promotions')
+rest_api.add_resource(PromotionResource, '/promotions/<int:promotion_id>')
+rest_api.add_resource(PaymentsResource, '/payments')
+rest_api.add_resource(PaymentResource, '/payments/<int:payment_id>')
+rest_api.add_resource(TransportationsResource, '/transportations')
+rest_api.add_resource(TransportationResource, '/transportations/<int:transportation_id>')
+rest_api.add_resource(RouteSegmentsResource, '/route_segments')
+rest_api.add_resource(RouteSegmentResource, '/route_segments/<int:segment_id>')
 
 @app.before_request
 def log_request_info():
