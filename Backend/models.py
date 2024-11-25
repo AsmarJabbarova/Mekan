@@ -9,14 +9,14 @@ db = SQLAlchemy()
 class Company(db.Model):
     __tablename__ = 'companies'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), unique=True, nullable=False)
+    name = db.Column(db.String(40), unique=True, nullable=False)
     drivers = db.relationship('Driver', back_populates='company', lazy=True)
 
 
 class Language(db.Model):
     __tablename__ = 'languages'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), unique=True, nullable=False)
+    name = db.Column(db.String(40), unique=True, nullable=False)
     drivers = db.relationship('Driver', back_populates='languages', lazy=True)
     user_preferences = db.relationship('UserPreference', back_populates='language', lazy=True)
     place_translations = db.relationship('PlaceTranslation', back_populates='language', lazy=True)
@@ -25,7 +25,7 @@ class Language(db.Model):
 class EntertainmentType(db.Model):
     __tablename__ = 'entertainment_types'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), unique=True, nullable=False)
+    name = db.Column(db.String(40), unique=True, nullable=False)
     places = db.relationship('Place', back_populates='entertainment_type', lazy=True)
     user_preferences = db.relationship('UserPreference', back_populates='entertainment_type', lazy=True)
 
@@ -33,19 +33,19 @@ class EntertainmentType(db.Model):
 class PlaceCategory(db.Model):
     __tablename__ = 'place_categories'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), unique=True, nullable=False)
+    name = db.Column(db.String(40), unique=True, nullable=False)
     places = db.relationship('Place', back_populates='category', lazy=True)
 
 
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(100), unique=True, nullable=False, index=True)
-    email = db.Column(db.String(100), unique=True, nullable=False, index=True)
-    phone_number = db.Column(db.String(60), unique=True)
+    username = db.Column(db.String(40), unique=True, nullable=False, index=True)
+    email = db.Column(db.String(40), unique=True, nullable=False, index=True)
+    phone_number = db.Column(db.String(20), unique=True)
     password_hash = db.Column(db.String(255), nullable=False)
     password_salt = db.Column(db.String(255), nullable=False)
-    role = db.Column(db.String(60), nullable=False, default='user')
+    role = db.Column(db.String(20), nullable=False, default='user')
     status = db.Column(db.Enum('active', 'inactive', 'suspended'), default='active')
     last_online = db.Column(db.DateTime)
     created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
@@ -73,10 +73,10 @@ class UserPreference(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     preferred_entertainment_type = db.Column(db.Integer, db.ForeignKey('entertainment_types.id'))
-    preferred_rating_range = db.Column(db.String(60))
+    preferred_rating_range = db.Column(db.String(20))
     preferred_language = db.Column(db.Integer, db.ForeignKey('languages.id'))
-    preferred_location = db.Column(db.String(100))
-    preferred_price_range = db.Column(db.String(60))
+    preferred_location = db.Column(db.String(40))
+    preferred_price_range = db.Column(db.String(20))
     user = db.relationship("User", back_populates="preferences", lazy=True)
     entertainment_type = db.relationship("EntertainmentType", back_populates="user_preferences", lazy=True)
     language = db.relationship("Language", back_populates="user_preferences", lazy=True)
@@ -91,7 +91,7 @@ class UserAudit(db.Model):
     __tablename__ = 'user_audits'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    action = db.Column(db.String(100), nullable=False)
+    action = db.Column(db.String(50), nullable=False)
     changed_data = db.Column(db.JSON)
     action_timestamp = db.Column(db.DateTime, default=datetime.now(timezone.utc))
     user = db.relationship('User', back_populates='audits', lazy=True)
@@ -110,9 +110,9 @@ class UserSession(db.Model):
 class Place(db.Model):
     __tablename__ = 'places'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
+    name = db.Column(db.String(40), nullable=False)
     city = db.Column(db.String(100), nullable=False)
-    location = db.Column(db.String(100))
+    location = db.Column(db.String(40))
     latitude = db.Column(db.Numeric(9, 6))
     longitude = db.Column(db.Numeric(9, 6))
     rating = db.Column(db.Float, nullable = False)
@@ -152,7 +152,7 @@ class PricingRule(db.Model):
 class Promotion(db.Model):
     __tablename__ = 'promotions'
     id = db.Column(db.Integer, primary_key=True)
-    code = db.Column(db.String(60), unique=True, nullable=False)
+    code = db.Column(db.String(10), unique=True, nullable=False)
     discount_type = db.Column(db.Enum('percentage', 'fixed_amount'))
     value = db.Column(db.Float)
     min_purchase_amount = db.Column(db.Numeric(10, 2))
@@ -166,8 +166,8 @@ class Driver(db.Model):
     __tablename__ = 'drivers'
     id = db.Column(db.Integer, primary_key=True)
     company_id = db.Column(db.Integer, db.ForeignKey('companies.id'))
-    name = db.Column(db.String(100), nullable=False)
-    surname = db.Column(db.String(100), nullable=False)
+    name = db.Column(db.String(40), nullable=False)
+    surname = db.Column(db.String(40), nullable=False)
     age = db.Column(db.Integer)
     language_id = db.Column(db.Integer, db.ForeignKey('languages.id'))
     status = db.Column(db.Enum('available', 'unavailable'), default='available')
@@ -232,8 +232,8 @@ class Payment(db.Model):
 class Currency(db.Model):
     __tablename__ = 'currencies'
     id = db.Column(db.Integer, primary_key=True)
-    currency_code = db.Column(db.String(10), unique=True, nullable=False)
-    symbol = db.Column(db.String(10))
+    currency_code = db.Column(db.String(3), unique=True, nullable=False)
+    symbol = db.Column(db.String(5))
     exchange_rate = db.Column(db.Float)
     is_default = db.Column(db.Boolean, default=False)
     last_updated = db.Column(db.DateTime, default=datetime.now(timezone.utc))
@@ -281,7 +281,7 @@ class Transportation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     origin_place_id = db.Column(db.Integer, db.ForeignKey('places.id'), nullable=False)
     destination_place_id = db.Column(db.Integer, db.ForeignKey('places.id'), nullable=False)
-    transport_type = db.Column(db.String(60))
+    transport_type = db.Column(db.String(20))
     duration = db.Column(db.Integer)
     cost = db.Column(db.Numeric(10, 2))
     segments = db.relationship('RouteSegment', back_populates='transportation', lazy=True)
@@ -294,7 +294,7 @@ class PlaceTranslation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     place_id = db.Column(db.Integer, db.ForeignKey('places.id'), nullable=False)
     language_id = db.Column(db.Integer, db.ForeignKey('languages.id'), nullable=False)
-    translated_name = db.Column(db.String(100))
+    translated_name = db.Column(db.String(40))
     translated_description = db.Column(db.Text)
     place = db.relationship("Place", back_populates="translations", lazy=True)
     language = db.relationship("Language", back_populates="place_translations", lazy=True)
@@ -304,9 +304,9 @@ class EmergencyContact(db.Model):
     __tablename__ = 'emergency_contacts'
     id = db.Column(db.Integer, primary_key=True)
     booking_id = db.Column(db.Integer, db.ForeignKey('bookings.id'), nullable=False)
-    name = db.Column(db.String(100))
-    phone_number = db.Column(db.String(60))
-    relation = db.Column(db.String(100))
+    name = db.Column(db.String(40))
+    phone_number = db.Column(db.String(20))
+    relation = db.Column(db.String(20))
     booking = db.relationship("Booking", back_populates="emergency_contacts", lazy=True)
 
 
