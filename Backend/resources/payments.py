@@ -20,15 +20,15 @@ payment_dto = api.model('Payment', {
 create_payment_dto = api.model('CreatePayment', {
     'booking_id': fields.Integer(required=True, description='ID of the booking associated with the payment'),
     'amount': fields.Float(required=True, description='Amount of the payment'),
-    'payment_date': fields.String(required=True, description='Date of the payment (YYYY-MM-DD format)'),
-    'status': fields.String(required=True, description='Status of the payment (e.g., "Paid", "Pending")')
+    'transaction_date': fields.String(required=True, description='Date of the payment (YYYY-MM-DD format)'),
+    'transaction_status': fields.String(required=True, description='Status of the payment (e.g., "Paid", "Pending")')
 })
 
 update_payment_dto = api.model('UpdatePayment', {
     'booking_id': fields.Integer(description='Updated ID of the booking'),
     'amount': fields.Float(description='Updated amount of the payment'),
     'payment_date': fields.String(description='Updated date of the payment (YYYY-MM-DD format)'),
-    'status': fields.String(description='Updated status of the payment')
+    'status': fields.String(description='Updated status of the payment')
 })
 
 
@@ -56,8 +56,9 @@ class PaymentsResource(Resource):
             new_payment = Payment(
                 booking_id=data['booking_id'],
                 amount=data['amount'],
-                payment_date=data['payment_date'],
-                status=data['status']
+                transaction_date=data['transaction_date'],
+                transaction_status=data['transaction_status'],
+                payment_method = 'credit_card'
             )
             db.session.add(new_payment)
             db.session.commit()

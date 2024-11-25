@@ -29,6 +29,7 @@ class UserLogin(Resource):
                     'id': user.id,
                     'username': user.username,
                     'email': user.email,
+                    'role': user.role,
                     'status': user.status,
                     'last_online': user.last_online.isoformat() if user.last_online else None,
                     'preferences': {

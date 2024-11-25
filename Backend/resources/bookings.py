@@ -13,6 +13,7 @@ booking_dto = api.model('Booking', {
     'id': fields.Integer(description='Unique ID of the booking'),
     'user_id': fields.Integer(required=True, description='ID of the user making the booking'),
     'place_id': fields.Integer(required=True, description='ID of the place being booked'),
+    'total_cost': fields.Float(required=True, description='Total cost of the booking'),
     'booking_date': fields.String(required=True, description='Date of the booking'),
     'status': fields.String(required=True, description='Status of the booking')
 })
@@ -20,6 +21,7 @@ booking_dto = api.model('Booking', {
 create_booking_dto = api.model('CreateBooking', {
     'user_id': fields.Integer(required=True, description='ID of the user making the booking'),
     'place_id': fields.Integer(required=True, description='ID of the place being booked'),
+    'total_cost': fields.Float(required=True, description='Total cost of the booking'),
     'booking_date': fields.String(required=True, description='Date of the booking'),
     'status': fields.String(required=True, description='Status of the booking')
 })
@@ -62,7 +64,8 @@ class BookingsResource(Resource):
                 user_id=data['user_id'],
                 place_id=data['place_id'],
                 booking_date=data['booking_date'],
-                status=data['status']
+                status=data['status'],
+                total_cost=data['total_cost']
             )
             db.session.add(new_booking)
             db.session.commit()

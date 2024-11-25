@@ -12,9 +12,16 @@ api = Namespace('places', description='Operations related to places')
 place_dto = api.model('Place', {
     'id': fields.Integer(description='Unique ID of the place'),
     'name': fields.String(required=True, description='Name of the place'),
+    'description': fields.String(required=True, description='Description of the place'),
     'location': fields.String(required=True, description='Location of the place'),
+    'city': fields.String(required=True, description='City of the place'),
+    'latitude': fields.Float(description='Latitude of the place'),
+    'longitude': fields.Float(description='Longitude of the place'),
     'rating': fields.Float(required=True, description='Rating of the place (1.0 to 5.0)'),
-    'entertainment_type_id': fields.Integer(required=True, description='Entertainment type ID linked to the place')
+    'entertainment_type_id': fields.Integer(required=True, description='Entertainment type ID linked to the place'),
+    'category_id': fields.Integer(description='Category ID linked to the place'),
+    'default_price': fields.Float(description='Default price for the place'),
+    'images': fields.List(fields.String, description='List of image URLs for the place')
 })
 
 create_place_dto = api.model('CreatePlace', {
@@ -25,9 +32,9 @@ create_place_dto = api.model('CreatePlace', {
 })
 
 
+
 class PlacesResource(Resource):
     @log_user_activity('view_places')
-    @jwt_required()
     @api.marshal_list_with(place_dto, envelope='data')
     def get(self):
         """Fetch all places"""
@@ -83,7 +90,6 @@ class PlacesResource(Resource):
 
 
 class PlaceResource(Resource):
-    @jwt_required()
     @api.marshal_with(place_dto, envelope='data')
     def get(self, place_id):
         """Fetch a specific place"""

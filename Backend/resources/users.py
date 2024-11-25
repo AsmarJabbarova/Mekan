@@ -23,6 +23,7 @@ user_dto = api.model('User', {
     'id': fields.Integer(description='Unique ID of the user'),
     'username': fields.String(required=True, description='Username of the user'),
     'email': fields.String(required=True, description='Email of the user'),
+    'role': fields.String(description='Role of the user'),
     'status': fields.String(description='Status of the user'),
     'last_online': fields.DateTime(description='Last online timestamp'),
     'preferences': fields.Nested(user_preferences_dto, description='User preferences', allow_null=True)
@@ -31,6 +32,7 @@ user_dto = api.model('User', {
 user_create_dto = api.model('CreateUser', {
     'username': fields.String(required=True, description='Username of the user'),
     'email': fields.String(required=True, description='Email of the user'),
+    'role': fields.String(description='Role of the user'),
     'password': fields.String(required=True, description='Password of the user'),
     'preferences': fields.Nested(user_preferences_dto, description='User preferences', allow_null=True)
 })
