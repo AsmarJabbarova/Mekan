@@ -10,6 +10,7 @@ interface Review {
   date: string;
   rating: number;
   comment: string;
+  publish_date: string;
 }
 
 interface User {
@@ -177,7 +178,10 @@ const SinglePageReviewSection: React.FC<SinglePageReviewSectionProps> = ({ place
                     <FaStar key={i} color={i < review.rating ? '#F7931E' : 'gray'} />
                   ))}
                 </div>
-                <p className="comment">{review.comment}</p>
+                <div className='comment-date-sec'>
+                  <p className="comment">{review.comment}</p>
+                  <p className='comment-date'>{new Date(review.publish_date).toLocaleDateString()}</p>
+                </div>
                 {index < reviews.length - 1 && <hr />}
               </div>
             ))}

@@ -15,9 +15,16 @@ interface Place {
   id: number;
   name: string;
   location: string;
+  latitude?: number;
+  longitude?: number;
   rating: number;
   description: string;
+  entertainment_type_id: number;
+  category_id?: number; 
+  default_price?: number;
+  images: string[];
 }
+
 
 const HomePage: React.FC = () => {
   const [places, setPlaces] = useState<Place[]>([]);
@@ -27,7 +34,7 @@ const HomePage: React.FC = () => {
       try {
     const response = await axios.get(`${import.meta.env.VITE_API_URL}/places`);
     console.log('Places:', response.data);
-        setPlaces(response.data);
+        setPlaces(response.data.data);
       } catch (error) {
         console.error('Error fetching places:', error);
       }
@@ -35,10 +42,12 @@ const HomePage: React.FC = () => {
     fetchPlaces();
   }, []);
 
+  const latestPlaces = places.slice(0, 5);
+
   return (
     <div>
       <div className="home-top-sec">
-        <LargeCarousel />
+      <LargeCarousel places={latestPlaces} />
       </div>
       <div className="popular-activities-sec">
         <div className="popular-activites-top-sec">

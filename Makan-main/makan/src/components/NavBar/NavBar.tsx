@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
-import { FaRegUserCircle, FaSearch } from 'react-icons/fa';
+import { FaFirstOrder, FaRegUserCircle, FaSearch } from 'react-icons/fa';
 import { Tooltip } from 'antd';
 import { useUser } from '../../contexts/UserContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './NavBarStyles.css';
+import { FaTicket } from 'react-icons/fa6';
 
 interface Place {
   id: number;
@@ -12,7 +13,7 @@ interface Place {
 }
 
 function NavBar() {
-  const { id, username, token, logout } = useUser();
+  const { id, username, token, role, logout } = useUser();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [allPlaces, setAllPlaces] = useState<Place[]>([]);
@@ -24,7 +25,8 @@ function NavBar() {
     const fetchPlaces = async () => {
       try {
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/places`);
-        setAllPlaces(response.data);
+        setAllPlaces(response.data.data);
+        console.log(username)
       } catch (error) {
         console.error('Error fetching places:', error);
       }
@@ -97,6 +99,20 @@ function NavBar() {
                   About
                 </a>
               </li>
+              {token && ( 
+                <li className="nav-item">
+                  <a className="nav-link" href="/bookings">
+                    Bookings
+                  </a>
+                </li>
+              )}
+              {role === 'admin' && ( 
+                <li className="nav-item">
+                  <a className="nav-link" href="/admin">
+                    Admin Dashboard
+                  </a>
+                </li>
+              )}
             </ul>
           </div>
           <div className="search-user-sec">
@@ -134,7 +150,7 @@ function NavBar() {
               {token ? (
                 <>
                   <Tooltip title={username || 'User'}>
-                    <a href="/edit-profile">
+                    <a href="/userinfo">
                       <FaRegUserCircle color="#63ab45" />
                     </a>
                   </Tooltip>

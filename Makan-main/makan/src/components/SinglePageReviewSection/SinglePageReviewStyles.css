@@ -46,6 +46,15 @@ hr{
     line-height: 1.8em;
     font-size: 16px;
 }
+.comment-date-sec{
+    display: flex;
+    justify-content: space-between;
+}
+.comment-date{
+    color: #82828a;
+    line-height: 1.8em;
+    font-size: 14px;
+}
 
 .add-comment-title{
     color: #82828a;
@@ -62,3 +71,6 @@ hr{
     border-radius: 8px;
 }
 
+.review hr{
+    margin-top: 35px;
+}

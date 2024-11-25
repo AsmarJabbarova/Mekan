@@ -1,0 +1,170 @@
+/* General Page Styles */
+.admin-page {
+  padding: 20px;
+  background-color: #f0f9f4; /* Light green background */
+  color: #2f855a; /* Dark green text */
+  font-family: Arial, sans-serif;
+}
+
+.admin-page h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #276749; /* Slightly darker green */
+}
+
+/* Model Buttons */
+.model-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.model-button {
+  padding: 10px 20px;
+  background-color: #38a169; /* Green button */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.model-button:hover {
+  background-color: #2f855a; /* Darker green on hover */
+}
+
+/* CRUD Panel */
+.crud-panel {
+  margin: 20px 0;
+  background-color: #e6fffa; /* Very light green */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Table Styles */
+.crud-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.crud-table th,
+.crud-table td {
+  padding: 10px;
+  border: 1px solid #c6f6d5; /* Light green border */
+  text-align: left;
+}
+
+.crud-table th {
+  background-color: #9ae6b4; /* Green header background */
+  color: #276749; /* Dark green text */
+}
+
+/* Buttons in Table */
+.fetch-button,
+.create-button,
+.edit-button,
+.delete-button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.fetch-button {
+  background-color: #38a169;
+  color: white;
+}
+
+.fetch-button:hover {
+  background-color: #2f855a;
+}
+
+.create-button {
+  background-color: #48bb78;
+  color: white;
+  font-size: 20px;
+}
+
+.create-button:hover {
+  background-color: #38a169;
+}
+
+.edit-button {
+  background-color: #f6ad55;
+  color: white;
+}
+
+.edit-button:hover {
+  background-color: #dd6b20;
+}
+
+.delete-button {
+  background-color: #e53e3e;
+  color: white;
+}
+
+.delete-button:hover {
+  background-color: #c53030;
+}
+.admin-buttons-sec{
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.create-form {
+  margin: 20px 0;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.create-form .form-group {
+  margin-bottom: 15px;
+}
+
+.create-form .form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.create-form .form-group input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.create-form .form-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.create-form .form-actions button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.create-form .form-actions button:hover {
+  background-color: #0056b3;
+}
+
+.edit-delete-buttons{
+  display: flex;
+  gap: 20px;
+  justify-content: flex-start;
+  align-items: center;
+}

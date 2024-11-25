@@ -31,23 +31,23 @@ function Footer() {
                             <img src="https://gaviaspreview.com/wp/gowilds/wp-content/uploads/2023/01/icon-headphone.png" alt="" />
                         </a>
                         <div className='footer-p-sec'>
-                            <a className='footer-p footer-p-lg' href="">Need any support for tour & travels ?</a>
+                            <a className='footer-p footer-p-lg' href="/contact">Need any support for bookings ?</a>
                         </div>
                         <div className='arrow-sec green'>
-                            <a href="">
+                            <a href="/contact">
                                 <FaArrowRight className='arrow-icon'/>
                             </a>
                         </div>
                     </div>
                     <div className='footer-top-inner'>
-                        <a href="">
+                        <a href="/places">
                             <img src="https://gaviaspreview.com/wp/gowilds/wp-content/uploads/2023/01/icon-travel.png" alt="" />
                         </a>
                         <div className='footer-p-sec'>
-                            <a className='footer-p footer-p-lg' href="">Ready to Get Started With Vacations!</a>
+                            <a className='footer-p footer-p-lg' href="/places">Ready to Get Started With Vacations!</a>
                         </div>
                         <div className='arrow-sec orange'>
-                            <a href="">
+                            <a href="/places">
                                 <FaArrowRight className='arrow-icon'/>
                             </a>
                         </div>
@@ -101,8 +101,8 @@ function Footer() {
                                 initialValues={initialValues}
                                 validationSchema={validationSchema}
                                 onSubmit={onSubmit}
-                                validateOnBlur={false} // Disable validation on blur
-                                validateOnChange={false} // Disable validation on change
+                                validateOnBlur={false} 
+                                validateOnChange={false} 
                                 >
                                 <Form className='form-footer'>
                                     <Field type="mail" id="mail" name="mail" className="footer-contact-input" placeholder='Email Address'/>
@@ -115,7 +115,7 @@ function Footer() {
                     </div>
                     <div className='footer-bottom-contact footer-bottom-inner'>
                         <h1>Contact</h1>
-                        <div>
+                        <div className='contact-outer'>
                             <div className='footer-contact-sec'>
                                 <div className='contact-icon'>
                                     <FaPhone color='#63ab45'/>

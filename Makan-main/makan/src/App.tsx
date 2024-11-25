@@ -5,6 +5,10 @@ import Header from './components/Header/Header';
 import { IconContext } from 'react-icons';
 import Footer from './components/Footer/Footer';
 import { UserProvider } from './contexts/UserContext';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
 function App() {
   return (
@@ -12,7 +16,9 @@ function App() {
       <IconContext.Provider value={{ color: 'white', className: 'global-class-name' }}>
         <Header />
         <NavBar />
-        <Outlet />
+        <Elements stripe={stripePromise}>
+          <Outlet />  
+        </Elements>
         <Footer />
       </IconContext.Provider>
     </UserProvider>

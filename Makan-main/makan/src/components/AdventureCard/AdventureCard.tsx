@@ -6,15 +6,15 @@ interface AdventureCardProps {
   place: {
     id: number;
     name: string;
-    location: string;
-    rating: number;
     description: string;
+    images: string[];
   };
 }
 
 const AdventureCard: React.FC<AdventureCardProps> = ({ place }) => {
   return (
-    <Link to={`/place/${place.id}`} className="inner-card-image">
+    <Link to={`/place/${place.id}`} className="inner-card-image" 
+    style={{ backgroundImage: `url(${place.images?.[0] || 'https://gaviaspreview.com/wp/gowilds/wp-content/uploads/2022/12/image-03.jpg'})` }}>
       <div className="banner-inner">
         <div className='banner-inner-top'>
           <div className="banner-inner-title">{place.name}</div>
@@ -22,6 +22,7 @@ const AdventureCard: React.FC<AdventureCardProps> = ({ place }) => {
             <FaArrowRight className='arrow-icon-card'/>
           </div>
         </div>
+        <div className="banner-inner-desc">{place.description}</div>
       </div>
     </Link>
   );

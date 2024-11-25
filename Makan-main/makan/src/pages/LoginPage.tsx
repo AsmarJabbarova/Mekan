@@ -33,10 +33,10 @@ const LoginPage: React.FC = () => {
         password: values.password,
       });
   
-      const { id, username, email } = response.data.user; 
+      const { id, username, email, role } = response.data; 
       const token = response.data.access_token;
   
-      setUser({ id, username, email, token }); 
+      setUser({ id, username, email, token, role }); 
       navigate(-1);
     } catch (error) {
       if (axios.isAxiosError(error)) {

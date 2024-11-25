@@ -10,14 +10,16 @@ interface CardProps {
   name: string;
   location: string;
   rating: number;
+  images: string[];
+  price: number;
 }
 
-const Card: React.FC<CardProps> = ({ id, name, location, rating }) => {
+const Card: React.FC<CardProps> = ({ id, name, location, rating, images, price }) => {
   return (
     <div className='card'>
       <div className='img-sec'>
         <Link to={`/place/${id}`} className='card-link'>
-            <img className='place-image' src="https://gaviaspreview.com/wp/gowilds/wp-content/uploads/2023/01/tour-6-600x540.jpg" alt="" />
+            <img className='place-image' src={images?.[0]} alt="" />
         </Link>
       </div>
       <div className='card-info-sec'>
@@ -36,7 +38,7 @@ const Card: React.FC<CardProps> = ({ id, name, location, rating }) => {
         </div>
         <div className='card-desc-sec'>
           <FaCircleDollarToSlot color='#63ab45' />
-          <p className='orange-p'>$1000</p>
+          <p className='orange-p'>${price}</p>
         </div>
       </div>
     </div>

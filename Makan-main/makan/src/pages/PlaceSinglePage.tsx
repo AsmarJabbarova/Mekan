@@ -8,15 +8,7 @@ import SinglePageTopSection from "../components/SinglePageTopSection/SinglePageT
 import '../styles/PlaceSinglePageStyles.css';
 import { useEffect, useState } from "react";
 import axios from "axios";
-
-interface Place {
-  id: number;
-  name: string;
-  location: string;
-  rating: number;
-  description?: string;
-  entertainment_type_id: number;
-}
+import { Place } from "../models/Place";
 
 interface EntertainmentType {
   id: number;
@@ -34,20 +26,17 @@ const PlaceSinglePage: React.FC = () => {
     const fetchPlace = async () => {
       try {
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/places/${id}`);
-        const data = response.data;
-        setPlace(data);
+        setPlace(response.data.data);
       } catch (err) {
         console.error("Error fetching place details:", err);
         setError('Failed to load place details.');
-      } finally {
-        setLoading(false);
       }
     };
 
     const fetchEntertainmentTypes = async () => {
       try {
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/entertainment_types`);
-        setEntertainmentTypes(response.data);
+        setEntertainmentTypes(response.data.data);
       } catch (err) {
         console.error("Error fetching entertainment types:", err);
       }
@@ -55,11 +44,12 @@ const PlaceSinglePage: React.FC = () => {
 
     fetchPlace();
     fetchEntertainmentTypes();
+    setLoading(false);
   }, [id]);
 
-  const getEntertainmentTypeName = (id: number) => {
-    const type = entertainmentTypes.find((etype) => etype.id === id);
-    return type ? type.name : "Entertainment not available";
+  const getEntertainmentTypeName = (entertainmentTypeId: number) => {
+    const type = entertainmentTypes.find((etype) => etype.id === entertainmentTypeId);
+    return type ? type.name : "Unknown Entertainment Type";
   };
 
   if (loading) return <p>Loading...</p>;
@@ -78,12 +68,14 @@ const PlaceSinglePage: React.FC = () => {
       <div className="single-page-body">
         <div className="single-page-body-inner">
           <div className="single-page-body-inner-top">
-            <SinglePageDescriptionSection />
-            <SinglePageBookingSection />
+            {place && <SinglePageDescriptionSection place={place} />}
+            {place && <SinglePageBookingSection price={place.default_price || 0}
+              placeId={place.id} 
+              category={place.category_id}/>}
           </div>
           {place && (
-              <SinglePageReviewSection place_id={place.id} rating={place.rating} />
-            )}
+            <SinglePageReviewSection place_id={place.id} rating={place.rating} />
+          )}
         </div>
       </div>
     </div>

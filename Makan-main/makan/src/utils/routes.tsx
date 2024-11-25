@@ -8,6 +8,11 @@ import AboutPage from "../pages/AboutPage";
 import PlaceSinglePage from "../pages/PlaceSinglePage";
 import LoginPage from "../pages/LoginPage";
 import SignUpPage from "../pages/SignUpPage";
+import UserPage from "../pages/UserPage";
+import AdminRoute from "./AdminRoute";
+import AdminPage from "../pages/AdminPage";
+import BookingsPage from "../pages/BookingsPage";
+import BookingDetailPage from "../pages/BookingDetailPage";
 
 export const router = createBrowserRouter([
     {
@@ -18,6 +23,14 @@ export const router = createBrowserRouter([
           {
             path: "*",
             element: <ErrorPage />,
+          },
+          {
+            path: '/admin',
+            element: (
+              <AdminRoute>
+                <AdminPage />
+              </AdminRoute>
+            ),
           },
           {
             index: true, 
@@ -51,6 +64,18 @@ export const router = createBrowserRouter([
             path: '/SignUp',
             element: <SignUpPage/>
           },
+          {
+            path: '/UserInfo',
+            element: <UserPage/>
+          },
+          {
+            path: '/bookings',
+            element: <BookingsPage/>
+          },
+          {
+            path: '/booking/:id',
+            element: <BookingDetailPage/>
+          }
         ]
       },
 ]);
